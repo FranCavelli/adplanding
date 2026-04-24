@@ -9,6 +9,7 @@ const nav = [
   { href: '#contacto', label: 'Contacto' },
 ];
 const waPhone = '542355696327';
+const base = import.meta.env.BASE_URL;
 ---
 
 <header
@@ -21,7 +22,7 @@ const waPhone = '542355696327';
     >
       <a href="#inicio" aria-label="Aguas del Parque — Inicio" class="flex items-center gap-3 group">
         <img
-          src="/minilogo.png"
+          src={`${base}minilogo.png`}
           alt="Aguas del Parque"
           class="h-11 w-auto transition-transform group-hover:scale-[1.03]"
         />

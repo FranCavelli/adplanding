@@ -1,12 +1,13 @@
 ---
 const year = new Date().getFullYear();
 const waPhone = '542355696327';
+const base = import.meta.env.BASE_URL;
 ---
 
 <footer class="relative border-t border-brand-sky/20 bg-white">
   <div class="section py-14 grid gap-10 md:grid-cols-4">
     <div class="md:col-span-2">
-      <img src="/logo.png" alt="Aguas del Parque" class="h-14 w-auto" />
+      <img src={`${base}logo.png`} alt="Aguas del Parque" class="h-14 w-auto" />
       <p class="mt-5 text-sm text-brand-ink/70 max-w-md">
         Agua de mesa envasada, soda, dispensers y servicio frío/calor en Lincoln y alrededores.
         <span class="block mt-2 text-brand-sky font-semibold italic">"El placer de lo natural"</span>
@@ -62,6 +63,7 @@ const waPhone = '542355696327';
       <div class="flex gap-4">
         <a href="#" class="hover:text-brand-deep">Términos</a>
         <a href="#" class="hover:text-brand-deep">Privacidad</a>
+        <a href="https://github.com/FranCavelli" target="_blank" rel="noopener" class="hover:text-brand-deep">Creado por Francisco Cavelli</a>
       </div>
     </div>
   </div>

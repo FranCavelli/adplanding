@@ -10,6 +10,8 @@ const {
   title = 'Aguas del Parque — Agua envasada en Lincoln, Buenos Aires',
   description = 'Bidones de 20, 12, 10 y 5 litros, soda, dispensers frío/calor y delivery en Lincoln y la zona. Producción propia, habilitación nacional y el placer de lo natural.',
 } = Astro.props;
+
+const base = import.meta.env.BASE_URL; // '/' en local, '/adplanding/' en GH Pages
 ---
 
 <!doctype html>
@@ -26,10 +28,10 @@ const {
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content="/minilogo.png" />
+    <meta property="og:image" content={`${base}minilogo.png`} />
     <meta name="twitter:card" content="summary_large_image" />
 
-    <link rel="icon" type="image/png" href="/minilogo.png" />
+    <link rel="icon" type="image/png" href={`${base}minilogo.png`} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link

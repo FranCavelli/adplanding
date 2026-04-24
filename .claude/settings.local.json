@@ -23,7 +23,10 @@
       "Bash(taskkill //F //PID 86660)",
       "Bash(taskkill //F //IM node.exe)",
       "PowerShell(Add-Type -AssemblyName System.Drawing; $img = [System.Drawing.Image]::FromFile\\(\"C:\\\\Users\\\\FranC\\\\OneDrive\\\\Escritorio\\\\adplanding\\\\public\\\\logo.png\"\\); \"Dimensiones: $\\($img.Width\\) x $\\($img.Height\\) px\"; \"Resolucion: $\\($img.HorizontalResolution\\) dpi\"; \"Formato: $\\($img.PixelFormat\\)\"; $img.Dispose\\(\\))",
-      "Bash(grep -A 3 \"\\\\\\\\.reveal\")"
+      "Bash(grep -A 3 \"\\\\\\\\.reveal\")",
+      "Bash(ASTRO_BASE=/adplanding npx astro build)",
+      "Bash(unset ASTRO_BASE)",
+      "Bash(MSYS_NO_PATHCONV=1 ASTRO_BASE='/adplanding' npx astro build)"
     ]
   }
 }

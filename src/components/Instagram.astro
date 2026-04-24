@@ -24,22 +24,22 @@ const IG_URL = `https://instagram.com/${IG_HANDLE}`;
 // ---- OPCIÓN A: reemplazá con tus fotos reales + links al post ----
 const highlights = [
   {
-    src: '/instagram/post-1.jpg',
+    src: 'instagram/post-1.jpg',
     caption: 'Calidad que se disfruta',
     href: IG_URL,
   },
   {
-    src: '/instagram/post-2.jpg',
+    src: 'instagram/post-2.jpg',
     caption: 'Hidratación constante, todos los días',
     href: IG_URL,
   },
   {
-    src: '/instagram/post-3.jpg',
+    src: 'instagram/post-3.jpg',
     caption: 'Agua pura al alcance de todos',
     href: IG_URL,
   },
   {
-    src: '/instagram/post-4.jpg',
+    src: 'instagram/post-4.jpg',
     caption: 'El placer de lo natural',
     href: IG_URL,
   },
@@ -47,6 +47,8 @@ const highlights = [
 
 // ---- OPCIÓN B: pegá acá tu widget ID de LightWidget ----
 const LIGHTWIDGET_ID = 'REEMPLAZA_CON_TU_ID'; // ej: 'abc123def456'
+
+const base = import.meta.env.BASE_URL;
 ---
 
 <section id="instagram" class="relative py-24 lg:py-32 bg-gradient-to-b from-white to-brand-foam/50 overflow-hidden">
@@ -85,7 +87,7 @@ const LIGHTWIDGET_ID = 'REEMPLAZA_CON_TU_ID'; // ej: 'abc123def456'
               class="ig-card group relative aspect-square overflow-hidden rounded-2xl ring-1 ring-brand-sky/10 shadow-sm hover:shadow-deep transition-shadow"
             >
               <img
-                src={post.src}
+                src={`${base}${post.src}`}
                 alt={post.caption}
                 loading="lazy"
                 class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
