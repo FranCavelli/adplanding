@@ -67,6 +67,15 @@ const base = import.meta.env.BASE_URL;
           Mirá nuestras novedades, análisis, eventos y promociones directamente en nuestro Instagram.
         </p>
       </div>
+      <a
+        href={IG_URL}
+        target="_blank"
+        rel="noopener"
+        class="self-start inline-flex items-center gap-2 rounded-full px-5 py-3 font-semibold text-white shadow-glow bg-gradient-to-br from-pink-500 via-rose-500 to-amber-500 hover:from-pink-600 hover:via-rose-600 hover:to-amber-600 transition-colors"
+      >
+        <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+        Seguinos @{IG_HANDLE}
+      </a>
     </div>
 
     {/* ====================================================
@@ -105,6 +114,18 @@ const base = import.meta.env.BASE_URL;
             </a>
           ))
         }
+      </div>
+
+      <div class="mt-10 text-center reveal">
+        <a
+          href={IG_URL}
+          target="_blank"
+          rel="noopener"
+          class="inline-flex items-center gap-2 rounded-full px-6 py-3 font-semibold text-white shadow-glow bg-gradient-to-br from-pink-500 via-rose-500 to-amber-500 hover:from-pink-600 hover:via-rose-600 hover:to-amber-600 transition-colors"
+        >
+          <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+          Ver todas las fotos en Instagram
+        </a>
       </div>
     </div>
 
