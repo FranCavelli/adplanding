@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+.astro/
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Logs / temp
+*.log
+npm-debug.log*
+.cache/
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# Local backups
+*.bak
+public/logo.png.bak

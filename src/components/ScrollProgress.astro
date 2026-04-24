@@ -1,0 +1,22 @@
+---
+---
+
+<div
+  id="scroll-progress"
+  class="fixed top-0 left-0 right-0 h-[3px] origin-left scale-x-0 z-[60] pointer-events-none bg-gradient-to-r from-brand-royal via-brand-sky to-brand-aqua transition-transform duration-75"
+>
+</div>
+
+<script>
+  const bar = document.getElementById('scroll-progress');
+  const update = () => {
+    if (!bar) return;
+    const h = document.documentElement;
+    const max = h.scrollHeight - h.clientHeight;
+    const p = max > 0 ? h.scrollTop / max : 0;
+    bar.style.transform = `scaleX(${p})`;
+  };
+  update();
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+</script>

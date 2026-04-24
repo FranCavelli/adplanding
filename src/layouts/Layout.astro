@@ -1,0 +1,154 @@
+---
+import '~/styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Aguas del Parque — Agua envasada en Lincoln, Buenos Aires',
+  description = 'Bidones de 20, 12, 10 y 5 litros, soda, dispensers frío/calor y delivery en Lincoln y la zona. Producción propia, habilitación nacional y el placer de lo natural.',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#1d3c96" />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content="/minilogo.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="icon" type="image/png" href="/minilogo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="overflow-x-hidden">
+    <slot />
+
+    <script>
+      import { gsap } from 'gsap';
+      import { ScrollTrigger } from 'gsap/ScrollTrigger';
+      import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
+      gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+
+      // 0) Smooth scroll on every #anchor link, with offset for the fixed navbar
+      const NAV_OFFSET = 80;
+      document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach((link) => {
+        link.addEventListener('click', (e) => {
+          const href = link.getAttribute('href') || '';
+          if (href === '#' || href.length < 2) return;
+          if (link.target === '_blank') return;
+          const isTop = href === '#inicio' || href === '#top';
+          const target = isTop ? null : document.querySelector(href);
+          if (!isTop && !target) return;
+          e.preventDefault();
+          gsap.to(window, {
+            duration: 1.1,
+            scrollTo: isTop ? 0 : { y: target as Element, offsetY: NAV_OFFSET },
+            ease: 'power3.inOut',
+            overwrite: true,
+          });
+        });
+      });
+
+      // 1) Scroll-triggered reveal with stagger + blur (skip hero, it has its own entrance)
+      gsap.utils.toArray<HTMLElement>('.reveal').forEach((el) => {
+        if (el.closest('#inicio')) return;
+        gsap.fromTo(
+          el,
+          { y: 50, opacity: 0, filter: 'blur(8px)' },
+          {
+            y: 0,
+            opacity: 1,
+            filter: 'blur(0px)',
+            duration: 0.9,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: el,
+              start: 'top 88%',
+              toggleActions: 'play none none none',
+            },
+          },
+        );
+      });
+
+      // 2) Stagger children of `.reveal-stagger` containers
+      gsap.utils.toArray<HTMLElement>('.reveal-stagger').forEach((wrap) => {
+        const kids = wrap.querySelectorAll(':scope > *');
+        if (!kids.length) return;
+        gsap.fromTo(
+          kids,
+          { y: 40, opacity: 0, scale: 0.96 },
+          {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 0.7,
+            ease: 'power3.out',
+            stagger: 0.08,
+            scrollTrigger: { trigger: wrap, start: 'top 82%' },
+          },
+        );
+      });
+
+      // 3) Count-up numbers
+      document.querySelectorAll<HTMLElement>('.count-up').forEach((el) => {
+        const to = parseFloat(el.dataset.to || el.textContent || '0');
+        const prefix = el.dataset.prefix || '';
+        const suffix = el.dataset.suffix || '';
+        const obj = { val: 0 };
+        el.textContent = `${prefix}0${suffix}`;
+        gsap.to(obj, {
+          val: to,
+          duration: 1.8,
+          ease: 'power2.out',
+          scrollTrigger: { trigger: el, start: 'top 90%', once: true },
+          onUpdate: () => {
+            el.textContent = `${prefix}${Math.round(obj.val)}${suffix}`;
+          },
+        });
+      });
+
+      // 4) 3D tilt + lift on `.tilt`
+      document.querySelectorAll<HTMLElement>('.tilt').forEach((el) => {
+        let raf = 0;
+        const onMove = (e: MouseEvent) => {
+          const r = el.getBoundingClientRect();
+          const dx = (e.clientX - r.left) / r.width - 0.5;
+          const dy = (e.clientY - r.top) / r.height - 0.5;
+          cancelAnimationFrame(raf);
+          raf = requestAnimationFrame(() => {
+            gsap.to(el, {
+              rotateX: -dy * 6,
+              rotateY: dx * 6,
+              transformPerspective: 1000,
+              duration: 0.4,
+              ease: 'power2.out',
+            });
+          });
+        };
+        const onLeave = () => {
+          cancelAnimationFrame(raf);
+          gsap.to(el, { rotateX: 0, rotateY: 0, duration: 0.7, ease: 'power2.out' });
+        };
+        el.addEventListener('mousemove', onMove);
+        el.addEventListener('mouseleave', onLeave);
+      });
+    </script>
+  </body>
+</html>

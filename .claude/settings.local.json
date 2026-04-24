@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm --version)",
+      "Bash(mkdir -p \"C:/Users/FranC/OneDrive/Escritorio/adplanding/public\" \"C:/Users/FranC/OneDrive/Escritorio/adplanding/src/components\" \"C:/Users/FranC/OneDrive/Escritorio/adplanding/src/layouts\" \"C:/Users/FranC/OneDrive/Escritorio/adplanding/src/pages\" \"C:/Users/FranC/OneDrive/Escritorio/adplanding/src/styles\" \"C:/Users/FranC/OneDrive/Escritorio/adplanding/src/scripts\")",
+      "Bash(cp \"C:/Users/FranC/OneDrive/Escritorio/adp.png\" \"C:/Users/FranC/OneDrive/Escritorio/adplanding/public/logo.png\")",
+      "Bash(npm install *)",
+      "Bash(npx astro *)",
+      "Bash(npm uninstall *)",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code} - %{size_download} bytes\\\\n\" http://127.0.0.1:4321/)",
+      "Bash(curl -s http://127.0.0.1:4321/)",
+      "Bash(curl *)",
+      "WebSearch",
+      "WebFetch(domain:unsplash.com)",
+      "WebFetch(domain:www.pexels.com)",
+      "Bash(cp candidates/gallon-3.jpg bidon-20l.jpg)",
+      "Bash(cp candidates/gallon-5.jpg bidon-12l.jpg)",
+      "Bash(cp candidates/gallon-4.jpg bidon-10l.jpg)",
+      "Bash(cp candidates/bottle-3.jpg bidon-5l.jpg)",
+      "Bash(cp candidates/soda-2.jpg sifon-soda.jpg)",
+      "Bash(tasklist)",
+      "Bash(powershell -Command 'Get-Process node 2>$null | Select Id,ProcessName')",
+      "Bash(taskkill //F //PID 86660)",
+      "Bash(taskkill //F //IM node.exe)",
+      "PowerShell(Add-Type -AssemblyName System.Drawing; $img = [System.Drawing.Image]::FromFile\\(\"C:\\\\Users\\\\FranC\\\\OneDrive\\\\Escritorio\\\\adplanding\\\\public\\\\logo.png\"\\); \"Dimensiones: $\\($img.Width\\) x $\\($img.Height\\) px\"; \"Resolucion: $\\($img.HorizontalResolution\\) dpi\"; \"Formato: $\\($img.PixelFormat\\)\"; $img.Dispose\\(\\))",
+      "Bash(grep -A 3 \"\\\\\\\\.reveal\")"
+    ]
+  }
+}

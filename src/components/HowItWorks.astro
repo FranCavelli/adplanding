@@ -1,0 +1,56 @@
+---
+const steps = [
+  {
+    n: '01',
+    title: 'Hacés tu pedido',
+    desc: 'WhatsApp, llamada o formulario. Elegís tamaño, cantidad y horario de entrega.',
+  },
+  {
+    n: '02',
+    title: 'Preparamos tu envío',
+    desc: 'Bidones sellados, soda fresca y tu dispenser si lo necesitás.',
+  },
+  {
+    n: '03',
+    title: 'Entregamos en 24 hs',
+    desc: 'Llegamos a la puerta de tu casa o empresa. Retiramos envases vacíos.',
+  },
+  {
+    n: '04',
+    title: 'Hidratación constante',
+    desc: 'Te avisamos antes de que se te termine. Suscripción opcional sin compromiso.',
+  },
+];
+---
+
+<section id="como-funciona" class="relative py-24 lg:py-32">
+  <div class="section">
+    <div class="max-w-2xl reveal">
+      <span class="chip">Cómo funciona</span>
+      <h2 class="mt-4 font-display text-4xl sm:text-5xl font-extrabold tracking-tight">
+        Tu agua en <span class="text-gradient">4 pasos simples.</span>
+      </h2>
+    </div>
+
+    <div class="relative mt-16 grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div
+        aria-hidden="true"
+        class="hidden lg:block absolute left-10 right-10 top-12 h-[2px] bg-gradient-to-r from-brand-sky/0 via-brand-sky/60 to-brand-sky/0"
+      ></div>
+      {
+        steps.map((s) => (
+          <div class="reveal relative card rounded-3xl p-6">
+            <div class="flex items-center gap-3">
+              <div class="h-10 w-10 rounded-full bg-gradient-to-br from-brand-royal to-brand-sky text-white grid place-items-center font-display font-extrabold">
+                {s.n.slice(1)}
+              </div>
+              <span class="font-mono text-xs text-brand-sky">{s.n}</span>
+            </div>
+            <h3 class="mt-5 font-display text-lg font-bold text-brand-deep">{s.title}</h3>
+            <p class="mt-2 text-sm text-brand-ink/70 leading-relaxed">{s.desc}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

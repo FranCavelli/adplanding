@@ -1,0 +1,316 @@
+---
+// Sección B — Calculadora "¿Cuánta agua necesitás?"
+// Bidón animado: la altura del agua representa tu consumo DIARIO vs 20L.
+// Texto grande: "1 bidón te dura X días/horas" — número tangible.
+---
+
+<section id="calculadora" class="relative py-24 lg:py-32 overflow-hidden">
+  <div class="absolute inset-0 -z-10">
+    <div class="absolute -top-20 right-0 h-[420px] w-[420px] rounded-full bg-brand-aqua/15 blur-3xl"></div>
+    <div class="absolute bottom-0 -left-20 h-[380px] w-[380px] rounded-full bg-brand-sky/15 blur-3xl"></div>
+  </div>
+
+  <div class="section grid lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+    {/* Left: inputs + results */}
+    <div class="lg:col-span-7 reveal">
+      <span class="chip">Calculadora</span>
+      <h2 class="mt-4 font-display text-4xl sm:text-5xl font-extrabold tracking-tight">
+        ¿Cuánta agua
+        <span class="text-gradient">necesitás?</span>
+      </h2>
+      <p class="mt-4 text-brand-ink/70 text-lg max-w-xl">
+        La OMS recomienda aproximadamente 2 litros por persona por día. Contanos tu caso
+        y te decimos cuántos bidones de 20L necesitás por mes.
+      </p>
+
+      {/* Type selector */}
+      <div class="mt-8">
+        <label class="text-xs uppercase tracking-widest text-brand-ink/60 font-medium">
+          ¿Para dónde es?
+        </label>
+        <div class="mt-3 grid grid-cols-3 gap-2" role="radiogroup" aria-label="Tipo de uso">
+          <button type="button" class="calc-type-btn active" data-value="2">
+            <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12 12 4l9 8v8a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>
+            <span>Hogar</span>
+            <span class="text-[10px] text-brand-ink/50">2 L / día</span>
+          </button>
+          <button type="button" class="calc-type-btn" data-value="2.5">
+            <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21V5a2 2 0 0 1 2-2h8v18M13 9h6a2 2 0 0 1 2 2v10M7 7h2M7 11h2M7 15h2"/></svg>
+            <span>Oficina</span>
+            <span class="text-[10px] text-brand-ink/50">2.5 L / día</span>
+          </button>
+          <button type="button" class="calc-type-btn" data-value="3.5">
+            <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M8 6l-3 6 3 6M16 6l3 6-3 6"/></svg>
+            <span>Gym / activo</span>
+            <span class="text-[10px] text-brand-ink/50">3.5 L / día</span>
+          </button>
+        </div>
+      </div>
+
+      {/* People slider */}
+      <div class="mt-8">
+        <div class="flex items-end justify-between">
+          <label for="calc-people" class="text-xs uppercase tracking-widest text-brand-ink/60 font-medium">
+            Cantidad de personas
+          </label>
+          <span class="font-display text-2xl font-extrabold text-brand-deep"><span id="calc-people-val">4</span></span>
+        </div>
+        <input
+          id="calc-people"
+          type="range"
+          min="1"
+          max="30"
+          value="4"
+          class="mt-3 w-full accent-brand-royal"
+        />
+        <div class="flex justify-between text-[10px] text-brand-ink/50 mt-1 font-mono">
+          <span>1</span><span>10</span><span>20</span><span>30</span>
+        </div>
+      </div>
+
+      {/* Results */}
+      <div class="mt-10 grid grid-cols-3 gap-3">
+        <div class="card rounded-2xl p-4 text-center">
+          <div class="text-[10px] uppercase tracking-widest text-brand-ink/50">Por mes</div>
+          <div class="mt-1 font-display text-2xl sm:text-3xl font-extrabold text-brand-deep">
+            <span id="calc-liters">240</span><span class="text-base font-bold text-brand-sky ml-0.5">L</span>
+          </div>
+        </div>
+        <div class="card rounded-2xl p-4 text-center bg-gradient-to-br from-brand-royal to-brand-sky text-white border-0">
+          <div class="text-[10px] uppercase tracking-widest text-white/70">Bidones 20L</div>
+          <div class="mt-1 font-display text-2xl sm:text-3xl font-extrabold">
+            <span id="calc-bidones">12</span>
+          </div>
+        </div>
+        <div class="card rounded-2xl p-4 text-center">
+          <div class="text-[10px] uppercase tracking-widest text-brand-ink/50">Plásticos evitados</div>
+          <div class="mt-1 font-display text-2xl sm:text-3xl font-extrabold text-emerald-600">
+            <span id="calc-plastic">480</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {/* Right: animated bottle */}
+    <div class="lg:col-span-5 reveal">
+      <div class="relative mx-auto max-w-sm">
+        <div class="absolute inset-0 -z-10 rounded-[3rem] bg-gradient-to-br from-brand-sky/30 via-transparent to-brand-aqua/30 blur-3xl"></div>
+        <svg viewBox="0 0 200 420" class="w-full h-auto drop-shadow-[0_30px_50px_rgba(10,42,110,0.3)]" aria-hidden="true">
+          <defs>
+            <linearGradient id="calc-waterg" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0" stop-color="#7cc9ea"/>
+              <stop offset="0.5" stop-color="#3ea7d8"/>
+              <stop offset="1" stop-color="#1d3c96"/>
+            </linearGradient>
+            <linearGradient id="calc-bottleG" x1="0" x2="1" y1="0" y2="0">
+              <stop offset="0" stop-color="#d9edf5" stop-opacity="0.95"/>
+              <stop offset="0.5" stop-color="#ffffff" stop-opacity="0.9"/>
+              <stop offset="1" stop-color="#c6e1ed" stop-opacity="0.95"/>
+            </linearGradient>
+            {/* Single continuous path: neck → shoulder → body → bottom */}
+            <clipPath id="calc-clip">
+              <path d="M 78 48 V 68 C 78 78, 56 82, 34 112 V 358 C 34 380, 52 392, 72 392 H 128 C 148 392, 166 380, 166 358 V 112 C 144 82, 122 78, 122 68 V 48 Z"/>
+            </clipPath>
+          </defs>
+
+          {/* Cap (compact, no gap with neck) */}
+          <rect x="78" y="22" width="44" height="26" rx="3" fill="#0a2a6e"/>
+          <rect x="78" y="22" width="44" height="6" rx="2" fill="#1d3c96"/>
+          <g opacity="0.3" stroke="#000" stroke-width="0.6">
+            <line x1="84" y1="32" x2="84" y2="44"/>
+            <line x1="90" y1="32" x2="90" y2="44"/>
+            <line x1="96" y1="32" x2="96" y2="44"/>
+            <line x1="102" y1="32" x2="102" y2="44"/>
+            <line x1="108" y1="32" x2="108" y2="44"/>
+            <line x1="114" y1="32" x2="114" y2="44"/>
+          </g>
+
+          {/* Bottle body (neck + shoulder + body in one continuous path) */}
+          <path
+            d="M 78 48 V 68 C 78 78, 56 82, 34 112 V 358 C 34 380, 52 392, 72 392 H 128 C 148 392, 166 380, 166 358 V 112 C 144 82, 122 78, 122 68 V 48 Z"
+            fill="url(#calc-bottleG)"
+            stroke="#9ac7d8"
+            stroke-width="1"
+          />
+
+          {/* Water (clipped), height animated by JS */}
+          <g clip-path="url(#calc-clip)">
+            <rect id="calc-water" x="0" y="392" width="200" height="0" fill="url(#calc-waterg)"/>
+            <path id="calc-wave" d="M 0 392 Q 50 388 100 392 T 200 392 L 200 400 L 0 400 Z" fill="#7cc9ea" opacity="0.85"/>
+            <g id="calc-bubbles" fill="white" opacity="0.6">
+              <circle cx="70" cy="370" r="2.5"/>
+              <circle cx="100" cy="360" r="3"/>
+              <circle cx="130" cy="375" r="2"/>
+              <circle cx="80" cy="350" r="2"/>
+            </g>
+          </g>
+
+          {/* Glossy highlights */}
+          <path d="M48 120 Q 40 240 48 350" stroke="white" stroke-width="5" opacity="0.45" fill="none" stroke-linecap="round"/>
+          <path d="M155 130 Q 158 240 154 340" stroke="white" stroke-width="2" opacity="0.3" fill="none" stroke-linecap="round"/>
+
+          {/* Label */}
+
+          {/* Shadow underneath */}
+          <ellipse cx="100" cy="404" rx="55" ry="5" fill="#0a2a6e" opacity="0.18"/>
+        </svg>
+
+        {/* Floating info card: "1 bidón dura X" */}
+        <div class="absolute -left-4 top-10 card rounded-2xl px-4 py-3 shadow-deep max-w-[160px]">
+          <div class="text-[10px] uppercase tracking-widest text-brand-ink/50">1 bidón te dura</div>
+          <div class="font-display text-xl font-extrabold text-brand-deep leading-tight">
+            <span id="calc-duration">2.5 días</span>
+          </div>
+          <div class="mt-1 text-[10px] text-brand-sky">
+            Consumís <span id="calc-daily">8</span> L / día
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .calc-type-btn {
+    @apply flex flex-col items-start gap-1 rounded-xl border border-brand-sky/20 bg-white/60 px-3 py-2.5 text-left text-sm font-medium text-brand-ink/70 transition-all hover:border-brand-sky/40 hover:bg-white;
+  }
+  .calc-type-btn.active {
+    @apply border-brand-royal bg-brand-royal text-white shadow-glow;
+  }
+  .calc-type-btn.active > span:last-child {
+    @apply text-white/70;
+  }
+  #calc-people {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 8px;
+    border-radius: 999px;
+    background: linear-gradient(to right, #1d3c96, #3ea7d8);
+  }
+  #calc-people::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #fff;
+    border: 3px solid #1d3c96;
+    box-shadow: 0 4px 10px rgba(10, 42, 110, 0.35);
+    cursor: pointer;
+  }
+  #calc-people::-moz-range-thumb {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #fff;
+    border: 3px solid #1d3c96;
+    cursor: pointer;
+  }
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+
+  const typeBtns = document.querySelectorAll<HTMLButtonElement>('.calc-type-btn');
+  const peopleEl = document.getElementById('calc-people') as HTMLInputElement | null;
+  const peopleValEl = document.getElementById('calc-people-val');
+  const litersEl = document.getElementById('calc-liters');
+  const bidonesEl = document.getElementById('calc-bidones');
+  const plasticEl = document.getElementById('calc-plastic');
+  const durationEl = document.getElementById('calc-duration');
+  const dailyEl = document.getElementById('calc-daily');
+  const waterEl = document.getElementById('calc-water');
+  const waveEl = document.getElementById('calc-wave');
+  const ctaN = document.getElementById('calc-cta-n');
+  const cta = document.getElementById('calc-cta') as HTMLAnchorElement | null;
+
+  let perPersonPerDay = 2;
+  let people = 4;
+
+  // Bidón dimensions (must match SVG path): body usable range y ∈ [112, 392] → 280 px
+  const BODY_TOP = 112;
+  const BODY_BOTTOM = 392;
+
+  function formatDuration(days: number): string {
+    if (days >= 1) {
+      // Show 1 decimal if not whole, otherwise integer
+      const rounded = Math.round(days * 10) / 10;
+      const display = rounded % 1 === 0 ? rounded.toFixed(0) : rounded.toFixed(1);
+      return `${display} día${rounded === 1 ? '' : 's'}`;
+    }
+    // Less than a day: show hours
+    const hours = Math.round(days * 24 * 2) / 2; // nearest 0.5 hour
+    const display = hours % 1 === 0 ? hours.toFixed(0) : hours.toFixed(1);
+    return `${display} horas`;
+  }
+
+  function updateBottleFill(dailyLiters: number) {
+    // The fill represents daily consumption vs 1 bidón (20L).
+    // If dailyLiters >= 20L the bottle is 100% full (you need a new bidón every day).
+    const pct = Math.min(100, (dailyLiters / 20) * 100);
+    const usable = BODY_BOTTOM - BODY_TOP; // 280
+    const fillH = (pct / 100) * usable;
+    const newY = BODY_BOTTOM - fillH;
+    if (waterEl) {
+      gsap.to(waterEl, {
+        attr: { y: newY, height: fillH },
+        duration: 0.7,
+        ease: 'power2.out',
+      });
+    }
+    if (waveEl) {
+      const wave = `M 0 ${newY} Q 50 ${newY - 6} 100 ${newY} T 200 ${newY} L 200 ${newY + 10} L 0 ${newY + 10} Z`;
+      gsap.to(waveEl, { attr: { d: wave }, duration: 0.7, ease: 'power2.out' });
+    }
+  }
+
+  function recompute() {
+    const dailyLiters = perPersonPerDay * people; // L / día
+    const liters = Math.round(dailyLiters * 30); // L / mes
+    const bidones = Math.ceil(liters / 20);
+    const plastics = Math.round(liters / 0.5); // botellitas de 500ml evitadas
+    const daysPerBidon = 20 / dailyLiters;
+
+    // Animate integer counters
+    const animate = (el: HTMLElement | null, target: number) => {
+      if (!el) return;
+      const from = parseInt((el.textContent || '0').replace(/\D/g, ''), 10) || 0;
+      const obj = { v: from };
+      gsap.to(obj, {
+        v: target,
+        duration: 0.5,
+        ease: 'power2.out',
+        onUpdate: () => { el.textContent = String(Math.round(obj.v)); },
+      });
+    };
+    animate(litersEl, liters);
+    animate(bidonesEl, bidones);
+    animate(plasticEl, plastics);
+    animate(dailyEl, Math.round(dailyLiters));
+
+    if (durationEl) durationEl.textContent = formatDuration(daysPerBidon);
+    if (ctaN) ctaN.textContent = String(bidones);
+    if (cta) {
+      const text = `Hola! Calculé que necesito ${bidones} bidones de 20L al mes (para ${people} personas, ${perPersonPerDay}L/día). Quiero coordinar el pedido.`;
+      cta.setAttribute('href', `https://wa.me/542355696327?text=${encodeURIComponent(text)}`);
+    }
+    updateBottleFill(dailyLiters);
+  }
+
+  typeBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      typeBtns.forEach((b) => b.classList.remove('active'));
+      btn.classList.add('active');
+      perPersonPerDay = parseFloat(btn.dataset.value || '2');
+      recompute();
+    });
+  });
+
+  peopleEl?.addEventListener('input', (e) => {
+    people = parseInt((e.target as HTMLInputElement).value, 10);
+    if (peopleValEl) peopleValEl.textContent = String(people);
+    recompute();
+  });
+
+  recompute();
+</script>

@@ -1,0 +1,115 @@
+---
+// =============================================================
+//  Sección Instagram — dos opciones coexistiendo
+//  (elegí la que te guste y borrá la otra después)
+// =============================================================
+//
+//  OPCIÓN A (manual): la grilla de "Destacados" de arriba.
+//    - Editá el array `highlights` con las 4 fotos que quieras.
+//    - Cada foto la dejás en public/instagram/ (mismo nombre
+//      que pongas en `src`) y linkea al post real de IG.
+//
+//  OPCIÓN B (automática): el widget de LightWidget de abajo.
+//    - Entrá a https://lightwidget.com/ y creá cuenta gratis
+//    - Conectás tu Instagram (@aguasdelparquelincoln)
+//    - Te genera un widget ID (ej: "abc123")
+//    - Reemplazá `LIGHTWIDGET_ID` abajo con tu ID real.
+//    - El widget muestra automáticamente los últimos posts y se
+//      actualiza solo cuando subís contenido nuevo.
+// =============================================================
+
+const IG_HANDLE = 'aguasdelparquelincoln';
+const IG_URL = `https://instagram.com/${IG_HANDLE}`;
+
+// ---- OPCIÓN A: reemplazá con tus fotos reales + links al post ----
+const highlights = [
+  {
+    src: '/instagram/post-1.jpg',
+    caption: 'Calidad que se disfruta',
+    href: IG_URL,
+  },
+  {
+    src: '/instagram/post-2.jpg',
+    caption: 'Hidratación constante, todos los días',
+    href: IG_URL,
+  },
+  {
+    src: '/instagram/post-3.jpg',
+    caption: 'Agua pura al alcance de todos',
+    href: IG_URL,
+  },
+  {
+    src: '/instagram/post-4.jpg',
+    caption: 'El placer de lo natural',
+    href: IG_URL,
+  },
+];
+
+// ---- OPCIÓN B: pegá acá tu widget ID de LightWidget ----
+const LIGHTWIDGET_ID = 'REEMPLAZA_CON_TU_ID'; // ej: 'abc123def456'
+---
+
+<section id="instagram" class="relative py-24 lg:py-32 bg-gradient-to-b from-white to-brand-foam/50 overflow-hidden">
+  <div class="section">
+    <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 reveal">
+      <div class="max-w-2xl">
+        <span class="chip inline-flex items-center gap-2">
+          <svg viewBox="0 0 24 24" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+          Instagram
+        </span>
+        <h2 class="mt-4 font-display text-4xl sm:text-5xl font-extrabold tracking-tight">
+          Aguas del Parque
+          <span class="text-gradient">en vivo.</span>
+        </h2>
+        <p class="mt-4 text-brand-ink/70 text-lg">
+          Mirá nuestras novedades, análisis, eventos y promociones directamente en nuestro Instagram.
+        </p>
+      </div>
+    </div>
+
+    {/* ====================================================
+         OPCIÓN A — Galería manual de "Destacados"
+         ==================================================== */}
+    <div class="mt-14 reveal">
+      <h3 class="font-display text-lg font-bold text-brand-deep mb-5 flex items-center gap-2">
+        <span class="h-1 w-8 rounded-full bg-brand-sky"></span>
+        Destacados
+      </h3>
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          highlights.map((post) => (
+            <a
+              href={post.href}
+              target="_blank"
+              rel="noopener"
+              class="ig-card group relative aspect-square overflow-hidden rounded-2xl ring-1 ring-brand-sky/10 shadow-sm hover:shadow-deep transition-shadow"
+            >
+              <img
+                src={post.src}
+                alt={post.caption}
+                loading="lazy"
+                class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity" />
+              <div class="absolute inset-0 p-4 flex flex-col justify-end">
+                <p class="text-white text-sm font-semibold drop-shadow translate-y-2 group-hover:translate-y-0 transition-transform">
+                  {post.caption}
+                </p>
+                <div class="mt-2 inline-flex items-center gap-1.5 text-white/90 text-xs opacity-0 group-hover:opacity-100 transition-opacity">
+                  <svg viewBox="0 0 24 24" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/></svg>
+                  Ver en Instagram →
+                </div>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+
+    {/* ====================================================
+         OPCIÓN B — Feed automático con LightWidget
+         ==================================================== */}
+  </div>
+</section>
+
+<script is:inline src="https://cdn.lightwidget.com/widgets/lightwidget.js" async></script>

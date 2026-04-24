@@ -1,0 +1,60 @@
+---
+const features = [
+  { title: 'Habilitación nacional', desc: 'Nuestra planta cumple con todas las normativas para envasado y distribución.' },
+  { title: 'Análisis físico-químicos aprobados', desc: 'Controles de laboratorio periódicos que garantizan la calidad en cada lote.' },
+  { title: 'Producción propia', desc: 'Desde la captación hasta el envasado, todo se hace en nuestra fábrica de Lincoln.' },
+  { title: 'Entrega rápida', desc: 'Flota propia y repartidores de confianza en Lincoln y la zona.' },
+  { title: 'Envases retornables', desc: 'Cuidamos el planeta: recuperamos los bidones y reducimos el plástico.' },
+  { title: 'Atención cercana', desc: 'Nos conocés. Te atendemos por WhatsApp con respuesta real, de persona.' },
+];
+---
+
+<section id="nosotros" class="relative py-24 lg:py-32 overflow-hidden">
+  <div aria-hidden="true" class="absolute inset-0 -z-10">
+    <div class="absolute right-0 top-20 h-[420px] w-[420px] rounded-full bg-brand-sky/15 blur-3xl"></div>
+    <div class="absolute -left-20 bottom-0 h-[380px] w-[380px] rounded-full bg-brand-aqua/15 blur-3xl"></div>
+  </div>
+
+  <div class="section grid lg:grid-cols-12 gap-10 items-center">
+    <div class="lg:col-span-5 reveal">
+      <span class="chip">Por qué elegirnos</span>
+      <h2 class="mt-4 font-display text-4xl sm:text-5xl font-extrabold tracking-tight">
+        Calidad <span class="text-gradient">que se disfruta,</span>
+        cada día.
+      </h2>
+      <p class="mt-5 text-brand-ink/70 text-lg leading-relaxed">
+        <strong>Aguas del Parque</strong> es la empresa de agua de mesa envasada de Lincoln. Producción propia, habilitación nacional y el placer de lo natural en cada bidón que llega a tu casa o empresa.
+      </p>
+      <div class="mt-8 grid grid-cols-3 gap-6 max-w-md">
+        <div>
+          <div class="font-display text-3xl font-extrabold text-brand-deep count-up" data-to="880" data-prefix="+">+880</div>
+          <div class="text-xs text-brand-ink/60 uppercase tracking-wider mt-1">Seguidores IG</div>
+        </div>
+        <div>
+          <div class="font-display text-3xl font-extrabold text-brand-deep">Lincoln</div>
+          <div class="text-xs text-brand-ink/60 uppercase tracking-wider mt-1">y la zona</div>
+        </div>
+        <div>
+          <div class="font-display text-3xl font-extrabold text-brand-deep">6/7</div>
+          <div class="text-xs text-brand-ink/60 uppercase tracking-wider mt-1">Días / sem.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="lg:col-span-7 grid sm:grid-cols-2 gap-5">
+      {
+        features.map((f) => (
+          <div class="reveal card rounded-3xl p-6 flex gap-4">
+            <div class="mt-1 h-9 w-9 shrink-0 rounded-xl bg-gradient-to-br from-brand-aqua to-brand-sky text-white grid place-items-center">
+              <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l4 4 10-10" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div>
+              <h3 class="font-display font-bold text-brand-deep">{f.title}</h3>
+              <p class="mt-1 text-sm text-brand-ink/70 leading-relaxed">{f.desc}</p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

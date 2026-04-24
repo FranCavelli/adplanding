@@ -1,0 +1,166 @@
+---
+const products = [
+  {
+    slug: 'bidon-20l',
+    size: '20L',
+    tag: 'Más pedido',
+    title: 'Bidón 20 litros',
+    desc: 'Ideal para oficinas, comercios y familias grandes. Envase retornable para dispenser.',
+    features: ['Para dispenser', 'Tapa sellada', 'Retornable'],
+    accent: 'from-brand-royal to-brand-sky',
+    photo: '/bidones/bidon-20l.jpg',
+    pos: 'center 40%',
+  },
+  {
+    slug: 'bidon-12l',
+    size: '12L',
+    title: 'Bidón 12 litros',
+    desc: 'La opción equilibrada: cabe en heladera y es fácil de manipular.',
+    features: ['Con manija', 'Fácil de cargar', 'Retornable'],
+    accent: 'from-brand-sky to-brand-aqua',
+    photo: '/bidones/bidon-12l.jpg',
+    pos: 'center',
+  },
+  {
+    slug: 'bidon-10l',
+    size: '10L',
+    title: 'Bidón 10 litros',
+    desc: 'Práctico y liviano, perfecto para el uso diario en casa.',
+    features: ['Liviano', 'Uso hogar', 'Retornable'],
+    accent: 'from-brand-aqua to-brand-mint',
+    photo: '/bidones/bidon-10l.jpg',
+    pos: 'center',
+  },
+  {
+    slug: 'bidon-5l',
+    size: '5L',
+    title: 'Bidón 5 litros',
+    desc: 'Para llevar a donde sea: trabajo, viajes, gimnasio, eventos.',
+    features: ['Portátil', 'Práctico', 'Ideal viajes'],
+    accent: 'from-brand-mint to-brand-sky',
+    photo: '/bidones/bidon-5l.jpg',
+    pos: 'center',
+  },
+  {
+    slug: 'soda',
+    size: 'SODA',
+    tag: 'Clásico',
+    title: 'Soda en sifón',
+    desc: 'Soda recién envasada, con la gasificación justa. Sifón retornable.',
+    features: ['Sifón retornable', 'Bien gasificada', 'De siempre'],
+    accent: 'from-brand-deep to-brand-royal',
+    photo: '/bidones/sifon-soda.jpg',
+    pos: 'center',
+  },
+  {
+    slug: 'dispenser',
+    size: 'DISP',
+    tag: 'Frío / Calor',
+    title: 'Dispenser frío y calor',
+    desc: 'Venta y alquiler de dispensers eléctricos. Agua fría y caliente al instante, con mantenimiento incluido.',
+    features: ['Alquiler o venta', 'Frío + calor', 'Mantenimiento'],
+    accent: 'from-brand-deep to-brand-aqua',
+    photo: '/bidones/dispenser.jpg',
+    pos: 'center',
+  },
+];
+const waPhone = '542355696327';
+---
+
+<section id="productos" class="relative py-24 lg:py-32">
+  <div class="section">
+    <div class="max-w-2xl reveal">
+      <span class="chip">Productos</span>
+      <h2 class="mt-4 font-display text-4xl sm:text-5xl font-extrabold tracking-tight text-brand-ink">
+        Elegí el formato que
+        <span class="text-gradient">mejor te acompañe.</span>
+      </h2>
+      <p class="mt-4 text-brand-ink/70 text-lg">
+        Agua de mesa envasada en distintos tamaños, soda y dispensers frío/calor. Todo con entrega a domicilio y envase retornable.
+      </p>
+    </div>
+
+    <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        products.map((p) => (
+          <article class="product-card reveal tilt card group rounded-3xl overflow-hidden transition-transform hover:-translate-y-1">
+            <div class="relative h-56 sm:h-64 overflow-hidden">
+              <div class={`absolute inset-0 bg-gradient-to-br ${p.accent} opacity-90`} />
+              <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.25),transparent_70%)]" />
+              <img
+                src={p.photo}
+                alt={p.title}
+                loading="lazy"
+                class="absolute inset-0 h-full w-full object-cover mix-blend-luminosity opacity-90 group-hover:scale-105 transition-transform duration-500"
+                style={`object-position: ${p.pos};`}
+              />
+              <img
+                src={p.photo}
+                alt=""
+                aria-hidden="true"
+                loading="lazy"
+                class="absolute inset-0 h-full w-full object-cover opacity-70 group-hover:opacity-80 group-hover:scale-105 transition-all duration-500"
+                style={`object-position: ${p.pos};`}
+              />
+              <div class="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/40 to-transparent" />
+              <div class="absolute top-4 left-4">
+                <div class="inline-flex items-center h-9 px-3 rounded-xl bg-white/90 backdrop-blur text-brand-deep shadow">
+                  <span class="font-display font-extrabold text-sm leading-none">{p.size}</span>
+                </div>
+              </div>
+              {p.tag && (
+                <div class="absolute top-4 right-4">
+                  <span class="inline-flex items-center gap-1 rounded-full bg-white/90 text-brand-deep text-[11px] font-medium px-2.5 py-1 shadow-sm">
+                    <span class="h-1.5 w-1.5 rounded-full bg-brand-aqua" />
+                    {p.tag}
+                  </span>
+                </div>
+              )}
+            </div>
+
+            <div class="p-6 relative">
+              <h3 class="font-display text-xl font-bold text-brand-deep">{p.title}</h3>
+              <p class="mt-2 text-sm text-brand-ink/70 leading-relaxed">{p.desc}</p>
+
+              <ul class="mt-4 flex flex-wrap gap-2">
+                {p.features.map((f) => (
+                  <li class="text-[11px] font-medium px-2 py-1 rounded-full bg-brand-foam text-brand-deep border border-brand-sky/20">
+                    {f}
+                  </li>
+                ))}
+              </ul>
+
+              <div class="mt-5">
+                <a
+                  href={`https://wa.me/${waPhone}?text=Hola!%20Quiero%20pedir%20${encodeURIComponent(p.title)}`}
+                  target="_blank"
+                  rel="noopener"
+                  class="text-sm font-semibold text-brand-royal hover:text-brand-deep inline-flex items-center gap-1.5"
+                >
+                  Pedir por WhatsApp
+                  <svg class="h-4 w-4 transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+              </div>
+
+              <div class="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity" style="background: radial-gradient(600px circle at var(--mx,50%) var(--my,50%), rgba(62,167,216,0.10), transparent 40%);" />
+            </div>
+          </article>
+        ))
+      }
+    </div>
+
+    <p class="mt-10 text-center text-xs text-brand-ink/50">
+      Producción propia · Habilitación nacional · Exámenes físico-químicos aprobados
+    </p>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.product-card').forEach((el) => {
+    el.addEventListener('mousemove', (e) => {
+      const r = el.getBoundingClientRect();
+      el.style.setProperty('--mx', `${e.clientX - r.left}px`);
+      el.style.setProperty('--my', `${e.clientY - r.top}px`);
+    });
+  });
+</script>

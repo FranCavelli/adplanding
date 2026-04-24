@@ -1,0 +1,169 @@
+---
+import DropRain from '~/components/DropRain.astro';
+const waPhone = '542355696327';
+---
+
+<section id="inicio" class="relative pt-28 lg:pt-36 pb-20 lg:pb-28 overflow-hidden">
+  <!-- Background: soft gradient + animated mesh blobs -->
+  <div class="pointer-events-none absolute inset-0 -z-10">
+    <div class="absolute -top-40 -right-40 h-[520px] w-[520px] rounded-full bg-brand-sky/25 blur-3xl animate-float-slow"></div>
+    <div class="absolute top-40 -left-40 h-[480px] w-[480px] rounded-full bg-brand-aqua/20 blur-3xl animate-float-slow" style="animation-delay: -2s;"></div>
+    <svg class="absolute inset-0 h-full w-full opacity-[0.06]" aria-hidden="true">
+      <defs>
+        <pattern id="dots" x="0" y="0" width="22" height="22" patternUnits="userSpaceOnUse">
+          <circle cx="1" cy="1" r="1" fill="#0a2a6e"></circle>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#dots)"></rect>
+    </svg>
+    <!-- Ambient falling drops behind content -->
+    <DropRain count={10} color="#3ea7d8" maxOpacity={0.22} />
+  </div>
+
+  <div class="section grid lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+    <!-- Text column -->
+    <div class="lg:col-span-7 relative">
+      <div class="hero-chip inline-flex items-center gap-2 chip mb-6">
+        <span class="relative flex h-2 w-2">
+          <span class="absolute inline-flex h-full w-full rounded-full bg-brand-aqua opacity-75 animate-ripple"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-aqua"></span>
+        </span>
+        Delivery en el día · Lincoln y la zona
+      </div>
+
+      <h1 class="hero-title font-display text-[40px] leading-[1.05] sm:text-6xl lg:text-7xl font-extrabold tracking-tight">
+        <span class="block">Agua pura,</span>
+        <span class="block text-gradient">directo a tu casa</span>
+        <span class="block">o empresa.</span>
+      </h1>
+
+      <p class="hero-sub mt-6 max-w-xl text-lg text-brand-ink/75 leading-relaxed">
+        Bidones retornables de <strong>20, 12, 10 y 5 litros</strong>, soda, dispensers frío/calor y servicio de recarga. <em class="not-italic text-brand-deep font-semibold">El placer de lo natural</em>, con producción propia y habilitación nacional.
+      </p>
+
+      <div class="hero-ctas mt-8 flex flex-wrap gap-3">
+        <a href="#productos" class="btn-primary">
+          Ver productos
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href={`https://wa.me/${waPhone}?text=Hola!%20Quiero%20pedir%20agua`} target="_blank" rel="noopener" class="btn-ghost">
+          <svg viewBox="0 0 32 32" class="h-4 w-4 fill-current"><path d="M16.003 2.667C8.638 2.667 2.67 8.635 2.667 16a13.3 13.3 0 0 0 1.78 6.667L2.667 29.333l6.844-1.747A13.3 13.3 0 0 0 16 29.333h.003C23.368 29.333 29.333 23.365 29.337 16c.002-3.561-1.385-6.91-3.903-9.429A13.25 13.25 0 0 0 16.003 2.667m0 24.444h-.002a11.06 11.06 0 0 1-5.635-1.543l-.404-.24-4.188.982 1.118-3.966-.263-.421a11.05 11.05 0 0 1-1.691-5.923c.002-6.123 4.985-11.106 11.069-11.106a11 11 0 0 1 7.831 3.245 11 11 0 0 1 3.239 7.828c-.003 6.123-4.985 11.145-11.074 11.145m6.076-8.337c-.333-.167-1.972-.972-2.277-1.083s-.527-.167-.75.167-.861 1.083-1.056 1.306-.389.25-.722.083-1.407-.518-2.68-1.654c-.99-.884-1.66-1.976-1.854-2.309s-.021-.514.146-.68c.15-.149.333-.389.5-.583.167-.195.222-.333.333-.556.111-.222.055-.417-.028-.583-.083-.167-.75-1.806-1.027-2.473-.27-.65-.546-.561-.75-.572-.194-.01-.417-.012-.639-.012s-.584.083-.889.417c-.306.333-1.167 1.139-1.167 2.778 0 1.639 1.195 3.222 1.361 3.445.167.222 2.35 3.59 5.694 5.032.796.344 1.417.549 1.902.702.798.254 1.525.218 2.099.132.641-.096 1.972-.806 2.25-1.584.278-.778.278-1.444.194-1.584-.083-.139-.305-.222-.639-.389"/></svg>
+          Pedir por WhatsApp
+        </a>
+      </div>
+
+      <!-- Trust badges -->
+      <div class="hero-stats mt-10 grid grid-cols-3 max-w-xl gap-6">
+        <div>
+          <div class="font-display text-3xl font-extrabold text-brand-deep">24 h</div>
+          <div class="text-xs text-brand-ink/60 uppercase tracking-wider mt-1">Entrega</div>
+        </div>
+        <div>
+          <div class="font-display text-3xl font-extrabold text-brand-deep">100%</div>
+          <div class="text-xs text-brand-ink/60 uppercase tracking-wider mt-1">Producción propia</div>
+        </div>
+        <div>
+          <div class="font-display text-3xl font-extrabold text-brand-deep">✓</div>
+          <div class="text-xs text-brand-ink/60 uppercase tracking-wider mt-1">Habilitación nacional</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Visual column: big logo on transparent bg -->
+    <div class="lg:col-span-5 relative">
+      <div id="hero-logo-wrap" class="relative mx-auto max-w-xl flex items-center justify-center min-h-[360px] lg:min-h-[480px]">
+        <!-- Soft halos behind logo -->
+        <div class="pointer-events-none absolute inset-0 -z-10">
+          <div class="absolute inset-0 rounded-[3rem] bg-gradient-to-br from-brand-sky/30 via-transparent to-brand-aqua/30 blur-3xl"></div>
+          <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[75%] w-[75%] rounded-full bg-white/70 blur-2xl"></div>
+        </div>
+
+        <!-- Decorative orbit rings -->
+        <div aria-hidden="true" class="pointer-events-none absolute inset-0 grid place-items-center">
+          <div class="absolute h-[90%] aspect-square rounded-full border border-brand-sky/20"></div>
+          <div class="absolute h-[70%] aspect-square rounded-full border border-brand-sky/15"></div>
+          <div class="absolute h-[50%] aspect-square rounded-full border border-brand-sky/10"></div>
+        </div>
+
+        <!-- Logo itself (CSS breathing as a safety net) -->
+        <img
+          id="hero-logo"
+          src="/logo.png"
+          alt="Aguas del Parque"
+          class="hero-logo-breathe relative z-[1] block w-full max-w-[520px] drop-shadow-[0_25px_40px_rgba(10,42,110,0.25)]"
+        />
+
+        <!-- Floating drops (animated by GSAP) -->
+        <svg class="drop drop-1 absolute left-0 top-4 h-10 w-10" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2s7 8 7 13a7 7 0 1 1-14 0c0-5 7-13 7-13z" fill="#3ea7d8"/></svg>
+        <svg class="drop drop-2 absolute right-2 top-2 h-7 w-7" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2s7 8 7 13a7 7 0 1 1-14 0c0-5 7-13 7-13z" fill="#1d3c96"/></svg>
+        <svg class="drop drop-3 absolute -right-2 bottom-10 h-14 w-14" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2s7 8 7 13a7 7 0 1 1-14 0c0-5 7-13 7-13z" fill="#00d4c0" opacity="0.85"/></svg>
+        <svg class="drop drop-4 absolute left-4 bottom-6 h-6 w-6" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2s7 8 7 13a7 7 0 1 1-14 0c0-5 7-13 7-13z" fill="#9ad5ec"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- Animated wave divider -->
+  <svg class="absolute -bottom-px left-0 w-full h-16 text-white" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true">
+    <path id="hero-wave-back" fill="rgba(62,167,216,0.25)" d="M0 45 Q 360 85 720 45 T 1440 45 V 80 H 0 Z"/>
+    <path id="hero-wave" fill="currentColor" d="M0 40 Q 360 80 720 40 T 1440 40 V 80 H 0 Z"/>
+  </svg>
+</section>
+
+<!-- GSAP animations (loaded as a client island) -->
+<script>
+  import { gsap } from 'gsap';
+
+  {
+    // Hero entrance timeline
+    const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+    tl.from('.hero-chip', { y: 20, opacity: 0, duration: 0.5 })
+      .from('.hero-title > span', { y: 40, opacity: 0, duration: 0.8, stagger: 0.08 }, '-=0.2')
+      .from('.hero-sub', { y: 20, opacity: 0, duration: 0.6 }, '-=0.4')
+      .from('.hero-ctas > *', { y: 20, opacity: 0, duration: 0.5, stagger: 0.08 }, '-=0.3')
+      .from('.hero-stats > *', { y: 20, opacity: 0, duration: 0.5, stagger: 0.08 }, '-=0.3')
+      .from('#hero-logo', { y: 40, opacity: 0, scale: 0.92, duration: 1.0 }, '-=0.9');
+
+    // Subtle breathing on the logo
+    gsap.to('#hero-logo', { y: -8, duration: 4, yoyo: true, repeat: -1, ease: 'sine.inOut' });
+
+    // Floating drops
+    gsap.to('.drop-1', { y: -12, rotation: -8, duration: 3.2, yoyo: true, repeat: -1, ease: 'sine.inOut' });
+    gsap.to('.drop-2', { y: 10, rotation: 6, duration: 2.8, yoyo: true, repeat: -1, ease: 'sine.inOut' });
+    gsap.to('.drop-3', { y: -16, rotation: -4, duration: 3.6, yoyo: true, repeat: -1, ease: 'sine.inOut' });
+    gsap.to('.drop-4', { y: 8, rotation: 3, duration: 2.4, yoyo: true, repeat: -1, ease: 'sine.inOut' });
+
+    // Animated wave divider — morph between two paths
+    const waveA = 'M0 40 Q 360 80 720 40 T 1440 40 V 80 H 0 Z';
+    const waveB = 'M0 50 Q 360 20 720 50 T 1440 50 V 80 H 0 Z';
+    gsap.to('#hero-wave', { attr: { d: waveB }, duration: 5, yoyo: true, repeat: -1, ease: 'sine.inOut' });
+    gsap.to('#hero-wave-back', { attr: { d: 'M0 55 Q 360 20 720 55 T 1440 55 V 80 H 0 Z' }, duration: 6, yoyo: true, repeat: -1, ease: 'sine.inOut' });
+
+    // Mouse parallax on hero drops + logo
+    const heroSection = document.getElementById('inicio');
+    if (heroSection) {
+      heroSection.addEventListener('mousemove', (e) => {
+        const r = heroSection.getBoundingClientRect();
+        const dx = (e.clientX - r.left) / r.width - 0.5;
+        const dy = (e.clientY - r.top) / r.height - 0.5;
+        gsap.to('#hero-logo-wrap .drop-1', { x: dx * 18, duration: 1.1, ease: 'power2.out' });
+        gsap.to('#hero-logo-wrap .drop-2', { x: dx * -24, duration: 1.1, ease: 'power2.out' });
+        gsap.to('#hero-logo-wrap .drop-3', { x: dx * 28, duration: 1.1, ease: 'power2.out' });
+        gsap.to('#hero-logo-wrap .drop-4', { x: dx * -16, duration: 1.1, ease: 'power2.out' });
+        gsap.to('#hero-logo', { x: dx * 10, rotateY: dx * 4, rotateX: -dy * 4, transformPerspective: 900, duration: 1, ease: 'power2.out' });
+      });
+    }
+
+    // Parallax on scroll for the visual column
+    const wrap = document.getElementById('hero-logo-wrap');
+    if (wrap) {
+      window.addEventListener(
+        'scroll',
+        () => {
+          const y = Math.min(80, Math.max(-40, window.scrollY * -0.05));
+          wrap.style.transform = `translateY(${y}px)`;
+        },
+        { passive: true },
+      );
+    }
+  }
+</script>

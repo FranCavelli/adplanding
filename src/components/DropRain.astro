@@ -1,0 +1,45 @@
+---
+interface Props {
+  count?: number;
+  color?: string;
+  maxOpacity?: number;
+  class?: string;
+}
+const { count = 14, color = '#3ea7d8', maxOpacity = 0.6, class: className = '' } = Astro.props;
+
+// Pre-compute random drop parameters at build time so they stay stable across renders.
+const drops = Array.from({ length: count }, () => ({
+  left: Math.random() * 100,
+  delay: -Math.random() * 10,
+  duration: 4 + Math.random() * 5,
+  size: 10 + Math.random() * 16,
+  opacity: maxOpacity * (0.5 + Math.random() * 0.5),
+  swayDur: 2.5 + Math.random() * 2.5,
+}));
+---
+
+<div aria-hidden="true" class={`drop-rain pointer-events-none absolute inset-0 overflow-hidden ${className}`}>
+  {
+    drops.map((d) => (
+      <span
+        class="drop-rain__item absolute -top-6 will-change-transform"
+        style={`left: ${d.left}%; width: ${d.size}px; height: ${d.size * 1.35}px; opacity: ${d.opacity}; animation: drop-fall ${d.duration}s linear ${d.delay}s infinite, drop-sway ${d.swayDur}s ease-in-out ${d.delay}s infinite alternate;`}
+      >
+        <svg viewBox="0 0 24 32" class="h-full w-full block" fill={color}>
+          <path d="M12 0c0 0 10 12 10 20a10 10 0 1 1-20 0C2 12 12 0 12 0z"/>
+        </svg>
+      </span>
+    ))
+  }
+</div>
+
+<style is:global>
+  @keyframes drop-fall {
+    0%   { transform: translateY(-40px); }
+    100% { transform: translateY(120vh); }
+  }
+  @keyframes drop-sway {
+    0%   { margin-left: -4px; }
+    100% { margin-left: 4px; }
+  }
+</style>

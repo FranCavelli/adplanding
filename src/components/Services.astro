@@ -1,0 +1,105 @@
+---
+const services = [
+  {
+    title: 'Dispensers frío / calor',
+    desc: 'Alquiler y venta de dispensers eléctricos con agua fría y caliente al instante. Mantenimiento incluido.',
+    icon: 'dispenser',
+  },
+  {
+    title: 'Servicio frío & calor',
+    desc: 'Elegí tu equipo según tu consumo: ideal para oficinas, negocios, gimnasios y hogares.',
+    icon: 'temp',
+  },
+  {
+    title: 'Soda en sifón',
+    desc: 'Entrega y retorno de sifones. Soda recién envasada, con la gasificación justa.',
+    icon: 'soda',
+  },
+  {
+    title: 'Delivery propio',
+    desc: 'Flota de reparto propia. Coordinamos horarios por WhatsApp y entregamos en el día.',
+    icon: 'truck',
+  },
+  {
+    title: 'Empresas & comercios',
+    desc: 'Planes mensuales con facturación, reposición automática y soporte dedicado.',
+    icon: 'office',
+  },
+  {
+    title: 'Eventos',
+    desc: 'Cotizamos agua y soda para tu evento, con logística incluida.',
+    icon: 'event',
+  },
+];
+---
+
+<section id="servicios" class="relative py-24 lg:py-32 bg-gradient-to-b from-white to-brand-foam/60">
+  <div class="section">
+    <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+      <div class="max-w-2xl reveal">
+        <span class="chip">Servicios</span>
+        <h2 class="mt-4 font-display text-4xl sm:text-5xl font-extrabold tracking-tight">
+          Más que agua:
+          <span class="text-gradient">un servicio completo.</span>
+        </h2>
+      </div>
+      <a href="#contacto" class="btn-ghost self-start reveal">
+        Cotizar servicio
+        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+
+    <div class="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+      {
+        services.map((s) => (
+          <div class="reveal card rounded-3xl p-6 hover:shadow-deep transition-shadow">
+            <div class="h-12 w-12 rounded-2xl bg-gradient-to-br from-brand-royal to-brand-sky text-white grid place-items-center shadow-glow">
+              {s.icon === 'dispenser' && (
+                <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M8 2h8v5H8z" />
+                  <path d="M6 7h12l-1 3H7z" />
+                  <rect x="7" y="10" width="10" height="12" rx="2" />
+                  <circle cx="12" cy="15" r="1.5" />
+                </svg>
+              )}
+              {s.icon === 'temp' && (
+                <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M10 14V5a2 2 0 1 1 4 0v9a4 4 0 1 1-4 0z" />
+                  <path d="M12 14V8" />
+                </svg>
+              )}
+              {s.icon === 'soda' && (
+                <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M8 3h8v3l-1 2v11a3 3 0 0 1-3 3h-0a3 3 0 0 1-3-3V8L8 6z"/>
+                  <path d="M10 12h4M10 16h4" />
+                </svg>
+              )}
+              {s.icon === 'truck' && (
+                <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M3 7h11v10H3z" />
+                  <path d="M14 10h4l3 3v4h-7z" />
+                  <circle cx="7" cy="18" r="2" /><circle cx="17" cy="18" r="2" />
+                </svg>
+              )}
+              {s.icon === 'office' && (
+                <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M4 21V5a2 2 0 0 1 2-2h7v18" />
+                  <path d="M13 9h6a2 2 0 0 1 2 2v10" />
+                  <path d="M8 7h2M8 11h2M8 15h2M16 13h2M16 17h2" />
+                </svg>
+              )}
+              {s.icon === 'event' && (
+                <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 3v3M12 21v-3M3 12h3M21 12h-3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1" />
+                  <circle cx="12" cy="12" r="4" />
+                </svg>
+              )}
+            </div>
+            <h3 class="mt-5 font-display text-lg font-bold text-brand-deep">{s.title}</h3>
+            <p class="mt-2 text-sm text-brand-ink/70 leading-relaxed">{s.desc}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

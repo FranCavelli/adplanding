@@ -1,0 +1,136 @@
+---
+// Sección C — Impacto: contadores ecológicos + reseñas como burbujas flotantes
+// Los números son estimaciones, podés editarlos.
+
+const stats = [
+  { to: 5000000, suffix: '+', label: 'Botellas plásticas evitadas', hint: 'Vs. tomar agua en botellas descartables' },
+  { to: 2500000, suffix: 'L', label: 'Litros entregados', hint: 'Desde el inicio de la empresa' },
+  { to: 5000, suffix: '+', label: 'Familias hidratadas', hint: 'Y sumamos cada semana' },
+  { to: 20, suffix: ' años', label: 'En Lincoln y la zona', hint: 'Producción propia y habilitación nacional' },
+];
+
+const reviews = [
+  { name: 'María G.', role: 'Vecina de Lincoln', text: 'Hace 10 años que los pido. Jamás un problema, siempre fresco y bien entregado.', accent: 'from-brand-sky to-brand-aqua' },
+  { name: 'Rest. El Parque', role: 'Cliente corporativo', text: 'Nuestro proveedor de soda desde siempre. Puntuales como reloj.', accent: 'from-brand-royal to-brand-sky' },
+  { name: 'Ana F.', role: 'Clienta', text: 'El equipo es súper atento. Incluso me ayudaron a elegir el dispenser.', accent: 'from-brand-aqua to-brand-mint' },
+  { name: 'Oficina C.', role: 'Empresa', text: 'Seis años trabajando con ellos. Reponen antes de que se nos termine el agua.', accent: 'from-brand-deep to-brand-royal' },
+  { name: 'Laura P.', role: 'Vecina', text: 'El agua más rica de la zona. La diferencia con otras se nota al primer sorbo.', accent: 'from-brand-mint to-brand-sky' },
+  { name: 'Gim. Fit', role: 'Cliente gym', text: 'Cumplen, calidad y precio justo. Muy recomendables.', accent: 'from-brand-sky to-brand-royal' },
+];
+
+// Pre-compute positions for the floating reviews (stable across renders)
+const positions = reviews.map((_, i) => {
+  const cols = 3;
+  const col = i % cols;
+  const row = Math.floor(i / cols);
+  return {
+    left: 10 + col * 30 + (Math.random() * 6 - 3), // 10%, 40%, 70% with jitter
+    top: 10 + row * 40 + (Math.random() * 8 - 4),
+    delay: i * 0.3,
+    duration: 5 + (i % 3),
+  };
+});
+---
+
+<section id="impacto" class="relative py-24 lg:py-32 overflow-hidden bg-gradient-to-b from-white via-brand-foam/30 to-white">
+  <!-- Deco background bubbles -->
+  <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10">
+    <div class="absolute top-10 left-10 h-40 w-40 rounded-full bg-brand-sky/10 blur-2xl"></div>
+    <div class="absolute top-1/2 right-10 h-60 w-60 rounded-full bg-brand-aqua/10 blur-2xl"></div>
+    <div class="absolute bottom-10 left-1/3 h-48 w-48 rounded-full bg-brand-mint/10 blur-2xl"></div>
+  </div>
+
+  <div class="section">
+    <div class="max-w-2xl mx-auto text-center reveal">
+      <span class="chip">Nuestro impacto</span>
+      <h2 class="mt-4 font-display text-4xl sm:text-5xl font-extrabold tracking-tight">
+        Números que
+        <span class="text-gradient">nos enorgullecen.</span>
+      </h2>
+      <p class="mt-4 text-brand-ink/70 text-lg">
+        Cada bidón retornable es una botella plástica menos. Esto es lo que logramos
+        juntos desde que abrimos las puertas en Lincoln.
+      </p>
+    </div>
+
+    {/* Eco stats */}
+    <div class="mt-14 grid grid-cols-2 lg:grid-cols-4 gap-4">
+      {
+        stats.map((s) => (
+          <div class="reveal card rounded-3xl p-6 text-center">
+            <div class="font-display text-3xl sm:text-4xl font-extrabold text-gradient count-up" data-to={s.to} data-suffix={s.suffix}>
+              {s.suffix}{s.to}
+            </div>
+            <div class="mt-2 font-semibold text-brand-deep text-sm">{s.label}</div>
+            <div class="mt-1 text-xs text-brand-ink/50">{s.hint}</div>
+          </div>
+        ))
+      }
+    </div>
+
+    {/* Floating reviews */}
+    <div class="mt-20 reveal">
+      <h3 class="font-display text-lg font-bold text-brand-deep mb-8 flex items-center gap-2 justify-center">
+        <span class="h-1 w-8 rounded-full bg-brand-sky"></span>
+        Lo que dicen nuestros clientes
+        <span class="h-1 w-8 rounded-full bg-brand-aqua"></span>
+      </h3>
+
+      <div id="ecowall-bubbles" class="relative grid gap-4 sm:gap-0 sm:block sm:h-[500px] lg:h-[460px] max-w-5xl mx-auto">
+        {
+          reviews.map((r, i) => {
+            const p = positions[i];
+            return (
+              <div
+                class="review-bubble w-full sm:w-[260px] lg:w-[280px]"
+                style={`--bb-left: ${p.left}%; --bb-top: ${p.top}%; --bb-duration: ${p.duration}s; --bb-delay: ${p.delay}s;`}
+              >
+                <div class="relative">
+                  <div class={`absolute -inset-1 rounded-[2rem] bg-gradient-to-br ${r.accent} opacity-40 blur-md group-hover:opacity-70 transition-opacity`}></div>
+                  <div class="relative rounded-[2rem] bg-white/95 backdrop-blur ring-1 ring-brand-sky/10 p-5 shadow-[0_20px_50px_-15px_rgba(10,42,110,0.3)] hover:scale-[1.04] transition-transform">
+                    <div class="flex items-center gap-3">
+                      <div class={`h-10 w-10 rounded-full bg-gradient-to-br ${r.accent} grid place-items-center text-white font-bold`}>
+                        {r.name.charAt(0)}
+                      </div>
+                      <div>
+                        <div class="font-semibold text-brand-deep text-sm leading-tight">{r.name}</div>
+                        <div class="text-[11px] text-brand-ink/50">{r.role}</div>
+                      </div>
+                      <div class="ml-auto flex gap-0.5 text-amber-400">
+                        {Array.from({ length: 5 }, () => (
+                          <svg viewBox="0 0 24 24" class="h-3 w-3 fill-current"><path d="M12 2 15 9l7 .7-5.3 4.7L18 22l-6-3.5L6 22l1.3-7.6L2 9.7 9 9z"/></svg>
+                        ))}
+                      </div>
+                    </div>
+                    <p class="mt-3 text-sm text-brand-ink/75 leading-relaxed">"{r.text}"</p>
+                  </div>
+                </div>
+              </div>
+            );
+          })
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  @keyframes bubble-float {
+    0%   { transform: translateY(0) rotate(0deg); }
+    50%  { transform: translateY(-12px) rotate(-0.6deg); }
+    100% { transform: translateY(0) rotate(0.4deg); }
+  }
+  /* Mobile: stacked, no float animation. Desktop: scattered + floating. */
+  @media (min-width: 640px) {
+    .review-bubble {
+      position: absolute;
+      left: var(--bb-left);
+      top: var(--bb-top);
+      animation: bubble-float var(--bb-duration) ease-in-out var(--bb-delay) infinite alternate;
+    }
+  }
+  .review-bubble:hover {
+    animation-play-state: paused;
+    z-index: 10;
+  }
+</style>
