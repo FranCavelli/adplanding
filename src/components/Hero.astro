@@ -91,6 +91,9 @@ const base = import.meta.env.BASE_URL;
           id="hero-logo"
           src={`${base}logo.png`}
           alt="Aguas del Parque"
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
           class="hero-logo-breathe relative z-[1] block w-full max-w-[520px] drop-shadow-[0_25px_40px_rgba(10,42,110,0.25)]"
         />
 
@@ -117,12 +120,12 @@ const base = import.meta.env.BASE_URL;
   {
     // Hero entrance timeline
     const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-    tl.from('.hero-chip', { y: 20, opacity: 0, duration: 0.5 })
-      .from('.hero-title > span', { y: 40, opacity: 0, duration: 0.8, stagger: 0.08 }, '-=0.2')
-      .from('.hero-sub', { y: 20, opacity: 0, duration: 0.6 }, '-=0.4')
-      .from('.hero-ctas > *', { y: 20, opacity: 0, duration: 0.5, stagger: 0.08 }, '-=0.3')
-      .from('.hero-stats > *', { y: 20, opacity: 0, duration: 0.5, stagger: 0.08 }, '-=0.3')
-      .from('#hero-logo', { y: 40, opacity: 0, scale: 0.92, duration: 1.0 }, '-=0.9');
+    tl.from('#hero-logo', { opacity: 0, scale: 0.94, duration: 0.6 }, 0)
+      .from('.hero-chip', { y: 20, opacity: 0, duration: 0.4 }, 0.05)
+      .from('.hero-title > span', { y: 30, opacity: 0, duration: 0.55, stagger: 0.06 }, 0.15)
+      .from('.hero-sub', { y: 16, opacity: 0, duration: 0.45 }, 0.35)
+      .from('.hero-ctas > *', { y: 16, opacity: 0, duration: 0.4, stagger: 0.06 }, 0.5)
+      .from('.hero-stats > *', { y: 16, opacity: 0, duration: 0.4, stagger: 0.06 }, 0.6);
 
     // Subtle breathing on the logo
     gsap.to('#hero-logo', { y: -8, duration: 4, yoyo: true, repeat: -1, ease: 'sine.inOut' });
