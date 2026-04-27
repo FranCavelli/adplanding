@@ -23,7 +23,7 @@ const base = import.meta.env.BASE_URL;
 
   <div class="section grid lg:grid-cols-12 gap-10 lg:gap-14 items-center">
     <!-- Text column -->
-    <div class="lg:col-span-7 relative">
+    <div class="lg:col-span-7 relative order-2 lg:order-1">
       <div class="hero-chip inline-flex items-center gap-2 chip mb-6">
         <span class="relative flex h-2 w-2">
           <span class="absolute inline-flex h-full w-full rounded-full bg-brand-aqua opacity-75 animate-ripple"></span>
@@ -42,7 +42,7 @@ const base = import.meta.env.BASE_URL;
         Bidones retornables de <strong>20, 12, 10 y 5 litros</strong>, soda, dispensers frío/calor y servicio de recarga. <em class="not-italic text-brand-deep font-semibold">El placer de lo natural</em>, con producción propia y habilitación nacional.
       </p>
 
-      <div class="hero-ctas mt-8 flex flex-wrap gap-3">
+      <div class="hero-ctas mt-8 hidden md:flex flex-wrap gap-3">
         <a href="#productos" class="btn-primary">
           Ver productos
           <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -71,7 +71,7 @@ const base = import.meta.env.BASE_URL;
     </div>
 
     <!-- Visual column: big logo on transparent bg -->
-    <div class="lg:col-span-5 relative">
+    <div class="lg:col-span-5 relative order-1 lg:order-2">
       <div id="hero-logo-wrap" class="relative mx-auto max-w-xl flex items-center justify-center min-h-[360px] lg:min-h-[480px]">
         <!-- Soft halos behind logo -->
         <div class="pointer-events-none absolute inset-0 -z-10">
