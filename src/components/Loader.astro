@@ -1,0 +1,127 @@
+---
+const base = import.meta.env.BASE_URL;
+---
+
+<div id="loader" class="fixed inset-0 z-[9999] pointer-events-auto">
+  <svg
+    id="loader-svg"
+    class="absolute inset-0 h-full w-full block"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+  >
+    <defs>
+      <!-- Convierte la imagen en silueta: opaco -> negro opaco, transparente -> blanco opaco -->
+      <filter id="loader-silhouette" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+        <feColorMatrix type="matrix" values="0 0 0 -1 1  0 0 0 -1 1  0 0 0 -1 1  0 0 0 0 1"/>
+      </filter>
+
+      <!-- Máscara: blanco = visible (overlay), negro = recortado (se ve la página) -->
+      <mask id="loader-mask" maskUnits="userSpaceOnUse" maskContentUnits="userSpaceOnUse">
+        <rect width="100%" height="100%" fill="white"/>
+        <image
+          id="loader-logo-img"
+          href={`${base}logo.png`}
+          x="0" y="0" width="0" height="0"
+          preserveAspectRatio="xMidYMid meet"
+          filter="url(#loader-silhouette)"
+        />
+      </mask>
+    </defs>
+
+    <!-- Capa de color con el recorte del logo -->
+    <rect width="100%" height="100%" fill="#0a2a6e" mask="url(#loader-mask)"/>
+  </svg>
+</div>
+
+<style is:global>
+  html.is-loading,
+  html.is-loading body {
+    overflow: hidden !important;
+  }
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+
+  const loader = document.getElementById('loader');
+  const img = document.getElementById('loader-logo-img');
+  if (loader && img) {
+    document.documentElement.classList.add('is-loading');
+
+    const place = (size: number) => {
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      img.setAttribute('x', String((w - size) / 2));
+      img.setAttribute('y', String((h - size) / 2));
+      img.setAttribute('width', String(size));
+      img.setAttribute('height', String(size));
+    };
+
+    const startSize = Math.min(window.innerWidth, window.innerHeight) * 0.22;
+    place(startSize);
+
+    const onResize = () => {
+      // Solo reposicionar si todavía no arrancó la animación de zoom
+      if (!loader.dataset.zooming) {
+        const s = Math.min(window.innerWidth, window.innerHeight) * 0.22;
+        place(s);
+      }
+    };
+    window.addEventListener('resize', onResize);
+
+    // Esperar a que la imagen cargue antes de animar
+    const logoUrl = img.getAttribute('href') || '';
+    const preload = new Image();
+    preload.src = logoUrl;
+
+    const run = () => {
+      loader.dataset.zooming = '1';
+
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      const cx = w / 2;
+      const cy = h / 2;
+      const finalSize = Math.max(w, h) * 9;
+
+      const state = { size: startSize };
+
+      gsap.timeline({
+        onComplete: () => {
+          document.documentElement.classList.remove('is-loading');
+          loader.style.display = 'none';
+          window.removeEventListener('resize', onResize);
+        },
+      })
+        .to(state, {
+          size: startSize * 1.08,
+          duration: 0.2,
+          ease: 'sine.inOut',
+          yoyo: true,
+          repeat: 1,
+          onUpdate: () => place(state.size),
+        })
+        .to(state, {
+          size: finalSize,
+          duration: 1.6,
+          ease: 'power3.in',
+          onUpdate: () => {
+            const s = state.size;
+            img.setAttribute('x', String(cx - s / 2));
+            img.setAttribute('y', String(cy - s / 2));
+            img.setAttribute('width', String(s));
+            img.setAttribute('height', String(s));
+          },
+        })
+        .to(loader, { opacity: 0, duration: 0.35, ease: 'power2.out' }, '-=0.15');
+    };
+
+    if (preload.complete) {
+      run();
+    } else {
+      preload.addEventListener('load', run, { once: true });
+      preload.addEventListener('error', run, { once: true });
+      // Fallback de seguridad
+      setTimeout(run, 1500);
+    }
+  }
+</script>
