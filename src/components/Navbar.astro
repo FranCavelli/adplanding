@@ -100,8 +100,7 @@ const base = import.meta.env.BASE_URL;
   const burger = document.getElementById('nav-toggle');
   if (
     order && bar && logo && burger &&
-    window.matchMedia('(max-width: 1023px)').matches &&
-    !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    window.matchMedia('(max-width: 1023px)').matches
   ) {
     const natural = order.offsetWidth;
     const gap = 12;
@@ -113,16 +112,16 @@ const base = import.meta.env.BASE_URL;
     const wide = bar.clientWidth - 2 * (side + gap);
     if (wide > natural) {
       order.style.width = `${wide}px`;
-      requestAnimationFrame(() => {
+      setTimeout(() => {
+        order.style.transition = 'width 700ms cubic-bezier(0.22, 1, 0.36, 1)';
+        order.style.width = `${natural}px`;
+        // Limpia al terminar (sin depender de transitionend, que no
+        // dispara si la pestaña está en segundo plano)
         setTimeout(() => {
-          order.style.transition = 'width 700ms cubic-bezier(0.22, 1, 0.36, 1)';
-          order.style.width = `${natural}px`;
-          order.addEventListener('transitionend', () => {
-            order.style.width = '';
-            order.style.transition = '';
-          }, { once: true });
-        }, 1200);
-      });
+          order.style.width = '';
+          order.style.transition = '';
+        }, 800);
+      }, 1200);
     }
   }
 
