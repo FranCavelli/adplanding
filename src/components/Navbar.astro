@@ -9,6 +9,7 @@ const nav = [
   { href: '#contacto', label: 'Contacto' },
 ];
 const orderUrl = 'https://aguas-del-parque.aquaenvio.com/';
+const waPhone = '542355696327';
 const base = import.meta.env.BASE_URL;
 ---
 
@@ -44,16 +45,31 @@ const base = import.meta.env.BASE_URL;
       </nav>
 
       <div class="flex items-center gap-2">
-        <a
-          id="nav-order"
-          href={orderUrl}
-          target="_blank"
-          rel="noopener"
-          class="justify-center overflow-hidden absolute left-1/2 -translate-x-1/2 lg:static lg:translate-x-0 inline-flex btn-primary h-10 py-0 px-4 text-sm whitespace-nowrap"
+        <div
+          id="nav-cta"
+          class="absolute left-1/2 -translate-x-1/2 lg:static lg:translate-x-0 flex items-center gap-2"
         >
-          <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1.5" /><circle cx="19" cy="21" r="1.5" /><path d="M2.5 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.5a2 2 0 0 0 2-1.6L21 7H6" /></svg>
-          Pedir online
-        </a>
+          <a
+            id="nav-wa"
+            href={`https://wa.me/${waPhone}`}
+            target="_blank"
+            rel="noopener"
+            aria-label="Escribinos por WhatsApp"
+            class="shrink-0 h-10 w-10 grid place-items-center rounded-full bg-[#25D366] text-white shadow-[0_6px_18px_-8px_rgba(37,211,102,0.8)] transition-transform hover:scale-105"
+          >
+            <svg viewBox="0 0 32 32" class="h-5 w-5 fill-current" aria-hidden="true"><path d="M16.003 2.667C8.638 2.667 2.67 8.635 2.667 16a13.3 13.3 0 0 0 1.78 6.667L2.667 29.333l6.844-1.747A13.3 13.3 0 0 0 16 29.333h.003C23.368 29.333 29.333 23.365 29.337 16c.002-3.561-1.385-6.91-3.903-9.429A13.25 13.25 0 0 0 16.003 2.667m0 24.444h-.002a11.06 11.06 0 0 1-5.635-1.543l-.404-.24-4.188.982 1.118-3.966-.263-.421a11.05 11.05 0 0 1-1.691-5.923c.002-6.123 4.985-11.106 11.069-11.106a11 11 0 0 1 7.831 3.245 11 11 0 0 1 3.239 7.828c-.003 6.123-4.985 11.145-11.074 11.145m6.076-8.337c-.333-.167-1.972-.972-2.277-1.083s-.527-.167-.75.167-.861 1.083-1.056 1.306-.389.25-.722.083-1.407-.518-2.68-1.654c-.99-.884-1.66-1.976-1.854-2.309s-.021-.514.146-.68c.15-.149.333-.389.5-.583.167-.195.222-.333.333-.556.111-.222.055-.417-.028-.583-.083-.167-.75-1.806-1.027-2.473-.27-.65-.546-.561-.75-.572-.194-.01-.417-.012-.639-.012s-.584.083-.889.417c-.306.333-1.167 1.139-1.167 2.778 0 1.639 1.195 3.222 1.361 3.445.167.222 2.35 3.59 5.694 5.032.796.344 1.417.549 1.902.702.798.254 1.525.218 2.099.132.641-.096 1.972-.806 2.25-1.584.278-.778.278-1.444.194-1.584-.083-.139-.305-.222-.639-.389"/></svg>
+          </a>
+          <a
+            id="nav-order"
+            href={orderUrl}
+            target="_blank"
+            rel="noopener"
+            class="justify-center overflow-hidden inline-flex btn-primary h-10 py-0 px-4 text-sm whitespace-nowrap"
+          >
+            <svg viewBox="0 0 24 24" class="h-4 w-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1.5" /><circle cx="19" cy="21" r="1.5" /><path d="M2.5 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.5a2 2 0 0 0 2-1.6L21 7H6" /></svg>
+            Pedir online
+          </a>
+        </div>
         <button
           id="nav-toggle"
           aria-label="Abrir menú"
@@ -97,47 +113,47 @@ const base = import.meta.env.BASE_URL;
   // ===== Mobile: "Pedir online" ocupa todo el hueco entre el logo y
   // el burger cuando estás arriba de todo, y se achica al scrollear =====
   const order = document.getElementById('nav-order');
-  const bar = order?.parentElement?.parentElement;
+  const wa = document.getElementById('nav-wa');
+  const bar = document.getElementById('nav-cta')?.parentElement?.parentElement;
   const logo = bar?.querySelector('a[href="#inicio"]');
   const burger = document.getElementById('nav-toggle');
   const mobile = window.matchMedia('(max-width: 1023px)');
-  if (order && bar && logo && burger) {
+  if (order && wa && bar && logo && burger) {
+    const EASE = 'width 500ms cubic-bezier(0.22, 1, 0.36, 1)';
     let natural = 0;
     let wide = 0;
     const measure = () => {
-      order.style.transition = '';
-      // max-content = el ancho natural del botón (sin el ancho del CSS de arriba)
-      order.style.width = 'max-content';
-      natural = order.offsetWidth;
+      // El ancho natural se mide en una copia invisible: tocar el botón real
+      // a mitad de una animación es lo que lo hacía saltar
+      const ghost = order.cloneNode(true) as HTMLElement;
+      ghost.removeAttribute('id');
+      ghost.style.cssText = 'position:absolute;visibility:hidden;width:max-content;transition:none';
+      order.parentElement!.appendChild(ghost);
+      natural = ghost.offsetWidth;
+      ghost.remove();
       const b = bar.getBoundingClientRect();
-      // El lado más ocupado manda, para que el botón siga centrado
+      // El lado más ocupado manda, para que el grupo siga centrado
       const side = Math.max(
         logo.getBoundingClientRect().right - b.left,
         b.right - burger.getBoundingClientRect().left,
       );
-      wide = bar.clientWidth - 2 * (side + 12);
+      wide = bar.clientWidth - 2 * (side + 12) - wa.offsetWidth - 8;
     };
     const apply = () => {
       if (!mobile.matches) {
         order.style.width = '';
         return;
       }
-      if (wide <= natural) {
-        order.style.width = 'max-content';
-        return;
-      }
-      order.style.width = `${window.scrollY > 8 ? natural : wide}px`;
+      const target = wide <= natural ? natural : window.scrollY > 8 ? natural : wide;
+      order.style.width = `${target}px`;
     };
     measure();
     apply();
     // La transición recién después del primer pintado, así no anima al cargar
-    setTimeout(() => {
-      order.style.transition = 'width 500ms cubic-bezier(0.22, 1, 0.36, 1)';
-    }, 50);
+    requestAnimationFrame(() => requestAnimationFrame(() => (order.style.transition = EASE)));
     const remeasure = () => {
       measure();
       apply();
-      order.style.transition = 'width 500ms cubic-bezier(0.22, 1, 0.36, 1)';
     };
     window.addEventListener('scroll', apply, { passive: true });
     // En el celular, al scrollear se esconde la barra del navegador y eso
@@ -213,7 +229,8 @@ const base = import.meta.env.BASE_URL;
      (después el script lo ajusta al hueco exacto y lo anima) */
   @media (max-width: 1023px) {
     #nav-order {
-      width: calc(100% - 8.5rem);
+      /* hueco entre logo y burger, menos el círculo de WhatsApp */
+      width: calc(100vw - 14rem);
     }
   }
   /* Active link state (set by scroll-spy) */
