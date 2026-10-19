@@ -92,37 +92,50 @@ const base = import.meta.env.BASE_URL;
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
 
-  // ===== Mobile: "Pedir ahora" arranca ocupando todo el hueco
-  // entre el logo y el burger, y después se achica a su tamaño =====
+  // ===== Mobile: "Pedir ahora" ocupa todo el hueco entre el logo y
+  // el burger cuando estás arriba de todo, y se achica al scrollear =====
   const order = document.getElementById('nav-order');
   const bar = order?.parentElement?.parentElement;
   const logo = bar?.querySelector('a[href="#inicio"]');
   const burger = document.getElementById('nav-toggle');
-  if (
-    order && bar && logo && burger &&
-    window.matchMedia('(max-width: 1023px)').matches
-  ) {
-    const natural = order.offsetWidth;
-    const gap = 12;
-    // Mitad más chica de los dos lados, para que siga centrado
-    const side = Math.max(
-      logo.getBoundingClientRect().right - bar.getBoundingClientRect().left,
-      bar.getBoundingClientRect().right - burger.getBoundingClientRect().left,
-    );
-    const wide = bar.clientWidth - 2 * (side + gap);
-    if (wide > natural) {
-      order.style.width = `${wide}px`;
-      setTimeout(() => {
-        order.style.transition = 'width 700ms cubic-bezier(0.22, 1, 0.36, 1)';
-        order.style.width = `${natural}px`;
-        // Limpia al terminar (sin depender de transitionend, que no
-        // dispara si la pestaña está en segundo plano)
-        setTimeout(() => {
-          order.style.width = '';
-          order.style.transition = '';
-        }, 800);
-      }, 1200);
-    }
+  const mobile = window.matchMedia('(max-width: 1023px)');
+  if (order && bar && logo && burger) {
+    let natural = 0;
+    let wide = 0;
+    const measure = () => {
+      order.style.transition = '';
+      order.style.width = '';
+      natural = order.offsetWidth;
+      const b = bar.getBoundingClientRect();
+      // El lado más ocupado manda, para que el botón siga centrado
+      const side = Math.max(
+        logo.getBoundingClientRect().right - b.left,
+        b.right - burger.getBoundingClientRect().left,
+      );
+      wide = bar.clientWidth - 2 * (side + 12);
+    };
+    const apply = () => {
+      if (!mobile.matches || wide <= natural) {
+        order.style.width = '';
+        return;
+      }
+      order.style.width = `${window.scrollY > 8 ? natural : wide}px`;
+    };
+    measure();
+    apply();
+    // La transición recién después del primer pintado, así no anima al cargar
+    setTimeout(() => {
+      order.style.transition = 'width 500ms cubic-bezier(0.22, 1, 0.36, 1)';
+    }, 50);
+    const remeasure = () => {
+      measure();
+      apply();
+      order.style.transition = 'width 500ms cubic-bezier(0.22, 1, 0.36, 1)';
+    };
+    window.addEventListener('scroll', apply, { passive: true });
+    window.addEventListener('resize', remeasure);
+    // Cuando carga la tipografía el texto cambia de ancho: volver a medir
+    document.fonts?.ready.then(remeasure);
   }
 
   const toggle = document.getElementById('nav-toggle');
