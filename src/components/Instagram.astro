@@ -33,10 +33,11 @@ const POSTS = 4;
 
     <div class="mt-14 reveal">
       {/* Placeholders mientras carga; el script los reemplaza por los posts */}
-      <div id="ig-feed" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4" data-feed={BEHOLD_FEED_URL} data-posts={POSTS}>
+      {/* En mobile se ven 2 (lado a lado); desde sm, las 4 */}
+      <div id="ig-feed" class="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4" data-feed={BEHOLD_FEED_URL} data-posts={POSTS}>
         {
-          Array.from({ length: POSTS }).map(() => (
-            <div class="aspect-square rounded-2xl bg-brand-foam animate-pulse" />
+          Array.from({ length: POSTS }).map((_, i) => (
+            <div class:list={['aspect-square rounded-2xl bg-brand-foam animate-pulse', i >= 2 && 'hidden sm:block']} />
           ))
         }
       </div>
@@ -73,7 +74,7 @@ const POSTS = 4;
       };
 
       grid.replaceChildren(
-        ...posts.map((post) => {
+        ...posts.map((post, i) => {
           const caption = (post.prunedCaption || post.caption || '').split('\n')[0];
           const src = post.sizes?.medium?.mediaUrl || post.thumbnailUrl || post.mediaUrl;
 
@@ -81,6 +82,7 @@ const POSTS = 4;
           a.href = post.permalink;
           a.target = '_blank';
           a.rel = 'noopener';
+          if (i >= 2) a.classList.add('hidden', 'sm:block');
 
           const img = el('img', 'absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110');
           img.src = src;
