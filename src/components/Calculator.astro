@@ -23,9 +23,12 @@ const BIDON =
     <div class="absolute bottom-0 -left-20 h-[380px] w-[380px] rounded-full bg-brand-sky/15 blur-3xl"></div>
   </div>
 
-  <div class="section grid lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+  <div class="section grid lg:grid-cols-12 gap-8 lg:gap-16 items-center">
     {/* Left: inputs + results */}
-    <div class="lg:col-span-7 reveal">
+    {/* En mobile esta columna se "disuelve" (contents) para reordenar:
+         título → resultados → personas → bidón, así al mover la barra se ve el bidón */}
+    <div class="contents lg:block lg:col-span-7 reveal">
+      <div class="order-1 lg:order-none">
       <span class="chip">Calculadora</span>
       <h2 class="mt-4 font-display text-4xl sm:text-5xl font-extrabold tracking-tight">
         ¿Cuánta agua
@@ -59,9 +62,10 @@ const BIDON =
           </button>
         </div>
       </div>
+      </div>
 
       {/* People slider */}
-      <div class="mt-8">
+      <div class="order-3 lg:order-none lg:mt-8">
         <div class="flex items-end justify-between">
           <label for="calc-people" class="text-xs uppercase tracking-widest text-brand-ink/60 font-medium">
             Cantidad de personas
@@ -82,7 +86,7 @@ const BIDON =
       </div>
 
       {/* Results */}
-      <div class="mt-10 grid grid-cols-3 gap-3">
+      <div class="order-2 lg:order-none lg:mt-10 grid grid-cols-3 gap-3">
         <div class="card rounded-2xl p-4 text-center">
           <div class="text-[10px] uppercase tracking-widest text-brand-ink/50">Por mes</div>
           <div class="mt-1 font-display text-2xl sm:text-3xl font-extrabold text-brand-deep">
@@ -105,7 +109,7 @@ const BIDON =
     </div>
 
     {/* Right: animated bottle */}
-    <div class="lg:col-span-5 reveal">
+    <div class="order-4 lg:order-none lg:col-span-5 reveal">
       <div class="relative mx-auto max-w-sm">
         <div class="absolute inset-0 -z-10 rounded-[3rem] bg-gradient-to-br from-brand-sky/30 via-transparent to-brand-aqua/30 blur-3xl"></div>
         <svg viewBox="0 0 200 420" class="w-full h-auto drop-shadow-[0_30px_50px_rgba(10,42,110,0.3)]" aria-hidden="true">
