@@ -8,7 +8,6 @@ const nav = [
   { href: '#nosotros', label: 'Nosotros' },
   { href: '#contacto', label: 'Contacto' },
 ];
-const waPhone = '542355696327';
 const orderUrl = 'https://aguas-del-parque.aquaenvio.com/';
 const base = import.meta.env.BASE_URL;
 ---
@@ -78,22 +77,6 @@ const base = import.meta.env.BASE_URL;
           </a>
         ))
       }
-      <a
-        href={orderUrl}
-        target="_blank"
-        rel="noopener"
-        class="mt-2 btn-primary w-full justify-center py-2 text-sm"
-      >
-        Pedir ahora
-      </a>
-      <a
-        href={`https://wa.me/${waPhone}`}
-        target="_blank"
-        rel="noopener"
-        class="mt-2 btn-ghost w-full justify-center py-2 text-sm"
-      >
-        Pedir por WhatsApp
-      </a>
     </div>
   </div>
 </header>
