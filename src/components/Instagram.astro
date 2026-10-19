@@ -1,14 +1,14 @@
 ---
 // =============================================================
-//  Sección Instagram — feed automático con LightWidget
-//    - Widget conectado a @aguasdelparquelincoln en lightwidget.com
+//  Sección Instagram — feed automático con Behold
+//    - Feed conectado a @aguasdelparquelincoln en behold.so
 //    - Muestra las últimas publicaciones y se actualiza solo.
 // =============================================================
 
 const IG_HANDLE = 'aguasdelparquelincoln';
 const IG_URL = `https://instagram.com/${IG_HANDLE}`;
 
-const LIGHTWIDGET_ID = '8ed4880a439b522a9e1d06811a9419c5';
+const BEHOLD_FEED_ID = '5ItBC4KPmfjzy94gUq6q';
 ---
 
 <section id="instagram" class="relative py-24 lg:py-32 bg-gradient-to-b from-white to-brand-foam/50 overflow-hidden">
@@ -29,16 +29,9 @@ const LIGHTWIDGET_ID = '8ed4880a439b522a9e1d06811a9419c5';
       </div>
     </div>
 
-    {/* Feed automático con LightWidget: últimas publicaciones */}
+    {/* Feed automático con Behold: últimas publicaciones */}
     <div class="mt-14 reveal">
-      <iframe
-        src={`https://lightwidget.com/widgets/${LIGHTWIDGET_ID}.html`}
-        scrolling="no"
-        allowtransparency="true"
-        class="lightwidget-widget"
-        style="width:100%;border:0;overflow:hidden;"
-        title="Últimas publicaciones de Instagram"
-      ></iframe>
+      <behold-widget feed-id={BEHOLD_FEED_ID}></behold-widget>
 
       <div class="mt-10 text-center reveal">
         <a
@@ -55,4 +48,4 @@ const LIGHTWIDGET_ID = '8ed4880a439b522a9e1d06811a9419c5';
   </div>
 </section>
 
-<script is:inline src="https://cdn.lightwidget.com/widgets/lightwidget.js" async></script>
+<script is:inline type="module" src="https://w.behold.so/widget.js"></script>
