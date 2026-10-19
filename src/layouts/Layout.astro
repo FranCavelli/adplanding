@@ -78,13 +78,23 @@ const localBusiness = {
 
     <script type="application/ld+json" set:html={JSON.stringify(localBusiness)} />
 
-    <link rel="icon" type="image/png" href={`${base}minilogo.png`} />
+    <link rel="icon" type="image/png" href={`${base}favicon.png`} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    {/* Fuentes sin bloquear el primer pintado: se cargan como "print" y pasan a "all" al llegar */}
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
       rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
     />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
+    <link rel="preload" as="image" href={`${base}logo.webp`} fetchpriority="high" />
   </head>
   <body class="overflow-x-hidden">
     <slot />
