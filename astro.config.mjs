@@ -1,11 +1,11 @@
-import { defineConfig } from 'astro/config';
+﻿import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
 
 // Auto-detect base path:
-//  1) Si ASTRO_BASE está definido a mano → se usa ese
+//  1) Si ASTRO_BASE estÃ¡ definido a mano â†’ se usa ese
 //  2) Si corre en GitHub Actions (GITHUB_REPOSITORY=owner/repo)
-//     y el repo NO es del tipo "owner.github.io" → base = /repo
-//  3) Resto (local dev, custom domain, repo "owner.github.io") → /
+//     y el repo NO es del tipo "owner.github.io" â†’ base = /repo
+//  3) Resto (local dev, custom domain, repo "owner.github.io") â†’ /
 function detectBase() {
   if (process.env.ASTRO_BASE) return process.env.ASTRO_BASE;
   const repoFull = process.env.GITHUB_REPOSITORY;
@@ -22,7 +22,7 @@ let base = detectBase();
 if (!base.endsWith('/')) base += '/';
 
 export default defineConfig({
-  site: 'https://aguasdelparque.com.ar',
+  site: 'https://aguasdelparque.ar',
   base,
   trailingSlash: 'ignore',
   integrations: [tailwind()],
