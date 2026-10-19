@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://aguasdelparque.ar/sitemap.xml
+Sitemap: https://aguasdelparque.com.ar/sitemap.xml

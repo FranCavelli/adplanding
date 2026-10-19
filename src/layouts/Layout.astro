@@ -12,7 +12,7 @@ const {
 } = Astro.props;
 
 const base = import.meta.env.BASE_URL; // '/' en local, '/adplanding/' en GH Pages
-const siteUrl = (Astro.site?.href ?? 'https://aguasdelparque.ar/').replace(/\/$/, '');
+const siteUrl = (Astro.site?.href ?? 'https://aguasdelparque.com.ar/').replace(/\/$/, '');
 const canonical = `${siteUrl}${Astro.url.pathname}`;
 const ogImage = `${siteUrl}${base}og.jpg`;
 

@@ -22,7 +22,7 @@ let base = detectBase();
 if (!base.endsWith('/')) base += '/';
 
 export default defineConfig({
-  site: 'https://aguasdelparque.ar',
+  site: 'https://aguasdelparque.com.ar',
   base,
   trailingSlash: 'ignore',
   integrations: [tailwind()],
