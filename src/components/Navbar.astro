@@ -50,7 +50,7 @@ const base = import.meta.env.BASE_URL;
           class="justify-center overflow-hidden absolute left-1/2 -translate-x-1/2 lg:static lg:translate-x-0 inline-flex btn-primary h-10 py-0 px-4 text-sm whitespace-nowrap"
         >
           <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1.5" /><circle cx="19" cy="21" r="1.5" /><path d="M2.5 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.5a2 2 0 0 0 2-1.6L21 7H6" /></svg>
-          Pedir ahora
+          Pedir online
         </a>
         <button
           id="nav-toggle"
@@ -92,7 +92,7 @@ const base = import.meta.env.BASE_URL;
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
 
-  // ===== Mobile: "Pedir ahora" ocupa todo el hueco entre el logo y
+  // ===== Mobile: "Pedir online" ocupa todo el hueco entre el logo y
   // el burger cuando estás arriba de todo, y se achica al scrollear =====
   const order = document.getElementById('nav-order');
   const bar = order?.parentElement?.parentElement;
@@ -104,7 +104,8 @@ const base = import.meta.env.BASE_URL;
     let wide = 0;
     const measure = () => {
       order.style.transition = '';
-      order.style.width = '';
+      // max-content = el ancho natural del botón (sin el ancho del CSS de arriba)
+      order.style.width = 'max-content';
       natural = order.offsetWidth;
       const b = bar.getBoundingClientRect();
       // El lado más ocupado manda, para que el botón siga centrado
@@ -115,8 +116,12 @@ const base = import.meta.env.BASE_URL;
       wide = bar.clientWidth - 2 * (side + 12);
     };
     const apply = () => {
-      if (!mobile.matches || wide <= natural) {
+      if (!mobile.matches) {
         order.style.width = '';
+        return;
+      }
+      if (wide <= natural) {
+        order.style.width = 'max-content';
         return;
       }
       order.style.width = `${window.scrollY > 8 ? natural : wide}px`;
@@ -142,6 +147,9 @@ const base = import.meta.env.BASE_URL;
       lastW = window.innerWidth;
       remeasure();
     });
+    // Al recargar, el navegador puede devolverte a donde estabas recién
+    // en el load: ahí se decide de nuevo si va ancho o chico
+    window.addEventListener('load', apply);
     // Cuando carga la tipografía el texto cambia de ancho: volver a medir
     document.fonts?.ready.then(remeasure);
   }
@@ -198,6 +206,13 @@ const base = import.meta.env.BASE_URL;
 <style>
   #site-nav.is-scrolled > div > div {
     box-shadow: 0 20px 60px -30px rgba(10, 42, 110, 0.45);
+  }
+  /* Mobile: "Pedir online" ya sale ancho antes de que corra el JS
+     (después el script lo ajusta al hueco exacto y lo anima) */
+  @media (max-width: 1023px) {
+    #nav-order {
+      width: calc(100% - 8.5rem);
+    }
   }
   /* Active link state (set by scroll-spy) */
   #site-nav nav a.is-active {
