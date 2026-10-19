@@ -1,4 +1,5 @@
 ---
+import Camioneta from './Camioneta.astro';
 const products = [
   {
     slug: 'bidon-20l',
@@ -8,8 +9,9 @@ const products = [
     desc: 'Ideal para oficinas, comercios y familias grandes. Envase retornable para dispenser.',
     features: ['Para dispenser', 'Tapa sellada', 'Retornable'],
     accent: 'from-brand-royal to-brand-sky',
-    photo: 'bidones/bidon-20l.webp',
-    pos: 'center 40%',
+    photo: 'fotos/prod-bidon-20l.webp',
+    pos: 'center',
+    real: true
   },
   {
     slug: 'bidon-12l',
@@ -18,18 +20,9 @@ const products = [
     desc: 'La opción equilibrada: cabe en heladera y es fácil de manipular.',
     features: ['Con manija', 'Fácil de cargar', 'Retornable'],
     accent: 'from-brand-sky to-brand-aqua',
-    photo: 'bidones/bidon-12l.webp',
+    photo: 'fotos/prod-bidon-12l.webp',
     pos: 'center',
-  },
-  {
-    slug: 'bidon-10l',
-    size: '10L',
-    title: 'Bidón 10 litros',
-    desc: 'Práctico y liviano, perfecto para el uso diario en casa.',
-    features: ['Liviano', 'Uso hogar', 'Retornable'],
-    accent: 'from-brand-aqua to-brand-mint',
-    photo: 'bidones/bidon-10l.webp',
-    pos: 'center',
+    real: true
   },
   {
     slug: 'bidon-5l',
@@ -38,8 +31,9 @@ const products = [
     desc: 'Para llevar a donde sea: trabajo, viajes, gimnasio, eventos.',
     features: ['Portátil', 'Práctico', 'Ideal viajes'],
     accent: 'from-brand-mint to-brand-sky',
-    photo: 'bidones/bidon-5l.webp',
+    photo: 'fotos/prod-bidon-5l.webp',
     pos: 'center',
+    real: true
   },
   {
     slug: 'soda',
@@ -49,8 +43,20 @@ const products = [
     desc: 'Soda recién envasada, con la gasificación justa. Sifón retornable.',
     features: ['Sifón retornable', 'Bien gasificada', 'De siempre'],
     accent: 'from-brand-deep to-brand-royal',
-    photo: 'bidones/sifon-soda.webp',
+    photo: 'fotos/prod-soda.webp',
     pos: 'center',
+    real: true
+  },
+  {
+    slug: 'dispenser-comun',
+    size: 'MESA',
+    title: 'Dispenser común',
+    desc: 'Dispenser de mesa, sin electricidad: apoyás el bidón y servís con la canilla.',
+    features: ['Sin enchufe', 'De mesa', 'Fácil de limpiar'],
+    accent: 'from-brand-sky to-brand-aqua',
+    photo: 'fotos/prod-dispenser-comun.webp',
+    pos: 'center',
+    real: true
   },
   {
     slug: 'dispenser',
@@ -60,15 +66,16 @@ const products = [
     desc: 'Venta y alquiler de dispensers eléctricos. Agua fría y caliente al instante, con mantenimiento incluido.',
     features: ['Alquiler o venta', 'Frío + calor', 'Mantenimiento'],
     accent: 'from-brand-deep to-brand-aqua',
-    photo: 'bidones/dispenser.webp',
+    photo: 'fotos/prod-dispenser.webp',
     pos: 'center',
+    real: true
   },
 ];
 const waPhone = '542355696327';
 const base = import.meta.env.BASE_URL;
 ---
 
-<section id="productos" class="relative py-24 lg:py-32">
+<section id="productos" class="relative pt-24 pb-0 lg:pt-32">
   <div class="section">
     <div class="max-w-2xl reveal">
       <span class="chip">Productos</span>
@@ -81,11 +88,26 @@ const base = import.meta.env.BASE_URL;
       </p>
     </div>
 
-    <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    {/* En el celular: el 1.º entero, el 2.º asomando desenfocado con «Mostrar todos» encima, el resto guardado. */}
+    <div id="productos-bloque" class="relative mt-14" data-abierto="false">
+    <div id="productos-grilla" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
       {
-        products.map((p) => (
-          <article class="product-card reveal tilt card group rounded-3xl overflow-hidden transition-transform hover:-translate-y-1">
+        products.map((p, i) => (
+          <article class:list={['product-card reveal tilt card group rounded-3xl overflow-hidden transition-transform hover:-translate-y-1', { 'producto-extra': i >= 2, 'producto-asoma': i === 1 }]}>
             <div class="relative h-56 sm:h-64 overflow-hidden">
+              {/* Las fotos reales (real: true) van limpias; las de stock llevan el velo de color de la marca. */}
+              {p.real ? (
+                <img
+                  src={`${base}${p.photo}`}
+                  width="600"
+                  height="900"
+                  alt={`${p.title} – Aguas del Parque, agua envasada en Lincoln`}
+                  loading="lazy"
+                  class="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  style={`object-position: ${p.pos};`}
+                />
+              ) : (
+              <>
               <div class={`absolute inset-0 bg-gradient-to-br ${p.accent} opacity-90`} />
               <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.25),transparent_70%)]" />
               <img
@@ -107,6 +129,8 @@ const base = import.meta.env.BASE_URL;
                 class="absolute inset-0 h-full w-full object-cover opacity-70 group-hover:opacity-80 group-hover:scale-105 transition-all duration-500"
                 style={`object-position: ${p.pos};`}
               />
+              </>
+              )}
               <div class="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/40 to-transparent" />
               <div class="absolute top-4 left-4">
                 <div class="inline-flex items-center h-9 px-3 rounded-xl bg-white/90 backdrop-blur text-brand-deep shadow">
@@ -154,13 +178,79 @@ const base = import.meta.env.BASE_URL;
       }
     </div>
 
+    <div class="productos-toggle-caja sm:hidden">
+      <button
+        id="productos-toggle"
+        type="button"
+        aria-controls="productos-grilla"
+        aria-expanded="false"
+        class="group/btn inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-brand-royal shadow-lg border border-brand-sky/20 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl hover:bg-brand-royal hover:text-white active:scale-95"
+      >
+        <span>Mostrar todos los productos</span>
+        <svg class="h-4 w-4 transition-transform group-hover/btn:translate-y-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+    </div>
+
     <p class="mt-10 text-center text-xs text-brand-ink/50">
       Producción propia · Habilitación nacional · Exámenes físico-químicos aprobados
     </p>
+
+    <Camioneta />
   </div>
 </section>
 
+<style>
+  .productos-toggle-caja { margin-top: 2rem; text-align: center; }
+  /* Solo en el celular, cerrado: el 2.º producto asoma cortado y desenfocado, con el botón encima;
+     del 3.º en adelante, guardados. (!important: el «reveal» de GSAP deja filter/transform en línea.) */
+  @media (max-width: 639px) {
+    #productos-bloque[data-abierto='false'] .producto-extra { display: none; }
+    /* Se ve la foto arriba; el desenfoque solo cubre la mitad de abajo, donde va el botón. */
+    #productos-bloque[data-abierto='false'] .producto-asoma {
+      position: relative;
+      max-height: 250px;
+      pointer-events: none;
+      -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent 100%);
+      mask-image: linear-gradient(to bottom, #000 60%, transparent 100%);
+    }
+    #productos-bloque[data-abierto='false'] .producto-asoma::after {
+      content: '';
+      position: absolute; inset: 45% 0 0 0;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,.55));
+      -webkit-mask-image: linear-gradient(to bottom, transparent, #000 40%);
+      mask-image: linear-gradient(to bottom, transparent, #000 40%);
+    }
+    #productos-bloque[data-abierto='false'] .productos-toggle-caja {
+      position: absolute; left: 0; right: 0; bottom: 34px; margin-top: 0;
+    }
+    #productos-bloque[data-abierto='true'] .productos-toggle-caja { display: none; }
+    #productos-bloque[data-abierto='true'] .producto-extra { animation: producto-entra 0.45s ease-out both; }
+  }
+  @keyframes producto-entra {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: none; }
+  }
+</style>
+
 <script>
+  const bloque = document.getElementById('productos-bloque');
+  const toggle = document.getElementById('productos-toggle');
+  // Se abre una sola vez: no hay «Mostrar menos».
+  toggle?.addEventListener('click', () => {
+    if (!bloque) return;
+    bloque.dataset.abierto = 'true';
+    toggle.setAttribute('aria-expanded', 'true');
+    // Estaban ocultas cuando GSAP armó el «reveal»: se las deja visibles a mano.
+    bloque.querySelectorAll<HTMLElement>('.producto-extra').forEach((el) => {
+      el.style.opacity = '1';
+      el.style.filter = 'none';
+      el.style.transform = 'none';
+    });
+  });
+
   document.querySelectorAll<HTMLElement>('.product-card').forEach((el) => {
     el.addEventListener('mousemove', (e) => {
       const r = el.getBoundingClientRect();

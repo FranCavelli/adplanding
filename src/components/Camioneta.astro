@@ -1,0 +1,92 @@
+---
+// Detalle al pie de Productos: el utilitario de Aguas del Parque (dibujo 2D,
+// con Agustín manejando) cruza de derecha a izquierda a medida que se scrollea.
+// Las ruedas son una imagen aparte que gira según lo que avanza.
+const base = import.meta.env.BASE_URL;
+// Posición de cada rueda sobre el dibujo (proporciones de camioneta.png).
+const ruedas = [0.1586, 0.7816];
+---
+
+<div class="camioneta-pista relative mt-2 h-32 sm:h-36" style="overflow-x: clip; -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 12%, #000 88%, transparent 100%); mask-image: linear-gradient(to right, transparent 0%, #000 12%, #000 88%, transparent 100%);" aria-hidden="true">
+  <div class="absolute inset-x-0 bottom-0 border-b-2 border-dashed border-brand-sky/30"></div>
+  <div class="camioneta absolute bottom-0 left-0 w-[220px] sm:w-[260px] will-change-transform cursor-pointer">
+    <div class="camioneta-cuerpo relative">
+      <div class="camioneta-salto relative">
+        <picture>
+          <source srcset={`${base}fotos/camioneta.webp`} type="image/webp" />
+          <img src={`${base}fotos/camioneta.png`} alt="" width="720" height="339" class="block w-full h-auto" />
+        </picture>
+        {/* Mismo dibujo con Agustín saludando por la ventana: aparece con el mouse encima o al tocarla. */}
+        <picture>
+          <source srcset={`${base}fotos/camioneta-saluda.webp`} type="image/webp" />
+          <img src={`${base}fotos/camioneta-saluda.png`} alt="" width="720" height="339" loading="lazy" class="camioneta-saludo absolute inset-0 w-full h-auto" />
+        </picture>
+      </div>
+    </div>
+    {
+      ruedas.map((x) => (
+        <img
+          src={`${base}fotos/camioneta-rueda.webp`}
+          alt=""
+          class="camioneta-rueda absolute"
+          style={`left:${x * 100}%; top:84.2%; width:14.45%; transform: translate(-50%, -50%);`}
+        />
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .camioneta-saludo { opacity: 0; transition: opacity 0.15s; }
+  .camioneta:hover .camioneta-saludo,
+  .camioneta.saluda .camioneta-saludo { opacity: 1; }
+  .camioneta:hover .camioneta-salto,
+  .camioneta.saluda .camioneta-salto { animation: camioneta-salto 0.5s ease-out; }
+  @keyframes camioneta-salto {
+    0%, 100% { transform: translateY(0); }
+    35% { transform: translateY(-8px) rotate(-1.5deg); }
+    65% { transform: translateY(0) rotate(0.5deg); }
+  }
+</style>
+
+<script>
+  const pista = document.querySelector<HTMLElement>('.camioneta-pista');
+  const auto = pista?.querySelector<HTMLElement>('.camioneta');
+  const cuerpo = pista?.querySelector<HTMLElement>('.camioneta-cuerpo');
+  const ruedas = pista ? [...pista.querySelectorAll<HTMLElement>('.camioneta-rueda')] : [];
+  const quieto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (pista && auto && cuerpo) {
+    let pendiente = false;
+    const mover = () => {
+      pendiente = false;
+      const r = pista.getBoundingClientRect();
+      const vh = window.innerHeight;
+      // 0 cuando la pista asoma por abajo, 1 cuando se va por arriba.
+      // Avanza siempre con el scroll (lo maneja quien scrollea); con «reducir movimiento» solo se saca el traqueteo.
+      const p = Math.min(1, Math.max(0, (vh - r.top) / (vh + r.height)));
+      const ancho = auto.offsetWidth;
+      const x = (r.width + ancho) * (1 - p) - ancho; // de la derecha a la izquierda
+      auto.style.transform = `translateX(${x}px)`;
+      // La rueda gira lo que avanzó (hacia la izquierda = antihorario).
+      const giro = -((r.width + ancho) * p) / (Math.PI * ancho * 0.1445) * 360;
+      ruedas.forEach((w) => (w.style.transform = `translate(-50%, -50%) rotate(${giro}deg)`));
+      if (!quieto) cuerpo.style.transform = `translateY(${Math.sin(p * 90) * 1.2}px)`; // el traqueteo
+    };
+    const pedir = () => {
+      if (!pendiente) { pendiente = true; requestAnimationFrame(mover); }
+    };
+    // En el celular no hay hover: al tocarla saluda un rato.
+    let saludo = 0;
+    auto.addEventListener('click', () => {
+      auto.classList.remove('saluda');
+      void auto.offsetWidth; // reinicia el saltito si la tocan de nuevo
+      auto.classList.add('saluda');
+      clearTimeout(saludo);
+      saludo = window.setTimeout(() => auto.classList.remove('saluda'), 1800);
+    });
+    window.addEventListener('scroll', pedir, { passive: true });
+    window.addEventListener('resize', pedir);
+    mover();
+  }
+</script>
