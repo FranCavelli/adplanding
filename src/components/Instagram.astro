@@ -1,14 +1,16 @@
 ---
 // =============================================================
-//  Sección Instagram — feed automático con Behold
-//    - Feed conectado a @aguasdelparquelincoln en behold.so
-//    - Muestra las últimas publicaciones y se actualiza solo.
+//  Sección Instagram — últimas publicaciones vía Behold
+//    - Feed JSON conectado a @aguasdelparquelincoln en behold.so
+//    - La grilla se arma acá (sin widget ni marca de Behold) y
+//      se actualiza sola cuando suben algo nuevo.
 // =============================================================
 
 const IG_HANDLE = 'aguasdelparquelincoln';
 const IG_URL = `https://instagram.com/${IG_HANDLE}`;
 
-const BEHOLD_FEED_ID = '5ItBC4KPmfjzy94gUq6q';
+const BEHOLD_FEED_URL = 'https://feeds.behold.so/P4fwDUaBo26H7giUbJWN';
+const POSTS = 4;
 ---
 
 <section id="instagram" class="relative py-24 lg:py-32 bg-gradient-to-b from-white to-brand-foam/50 overflow-hidden">
@@ -29,9 +31,15 @@ const BEHOLD_FEED_ID = '5ItBC4KPmfjzy94gUq6q';
       </div>
     </div>
 
-    {/* Feed automático con Behold: últimas publicaciones */}
     <div class="mt-14 reveal">
-      <behold-widget feed-id={BEHOLD_FEED_ID}></behold-widget>
+      {/* Placeholders mientras carga; el script los reemplaza por los posts */}
+      <div id="ig-feed" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4" data-feed={BEHOLD_FEED_URL} data-posts={POSTS}>
+        {
+          Array.from({ length: POSTS }).map(() => (
+            <div class="aspect-square rounded-2xl bg-brand-foam animate-pulse" />
+          ))
+        }
+      </div>
 
       <div class="mt-10 text-center reveal">
         <a
@@ -48,4 +56,53 @@ const BEHOLD_FEED_ID = '5ItBC4KPmfjzy94gUq6q';
   </div>
 </section>
 
-<script is:inline type="module" src="https://w.behold.so/widget.js"></script>
+<script is:inline>
+  (async () => {
+    const grid = document.getElementById('ig-feed');
+    if (!grid) return;
+    try {
+      const res = await fetch(grid.dataset.feed);
+      const data = await res.json();
+      const posts = (data.posts || []).slice(0, Number(grid.dataset.posts));
+      if (!posts.length) throw new Error('feed vacío');
+
+      const el = (tag, cls) => {
+        const n = document.createElement(tag);
+        if (cls) n.className = cls;
+        return n;
+      };
+
+      grid.replaceChildren(
+        ...posts.map((post) => {
+          const caption = (post.prunedCaption || post.caption || '').split('\n')[0];
+          const src = post.sizes?.medium?.mediaUrl || post.thumbnailUrl || post.mediaUrl;
+
+          const a = el('a', 'ig-card group relative aspect-square overflow-hidden rounded-2xl ring-1 ring-brand-sky/10 shadow-sm hover:shadow-deep transition-shadow');
+          a.href = post.permalink;
+          a.target = '_blank';
+          a.rel = 'noopener';
+
+          const img = el('img', 'absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110');
+          img.src = src;
+          img.alt = caption || 'Publicación de Instagram';
+          img.loading = 'lazy';
+
+          const shade = el('div', 'absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity');
+
+          const body = el('div', 'absolute inset-0 p-4 flex flex-col justify-end');
+          const p = el('p', 'text-white text-sm font-semibold drop-shadow line-clamp-2 translate-y-2 group-hover:translate-y-0 transition-transform');
+          p.textContent = caption;
+          const cta = el('div', 'mt-2 text-white/90 text-xs opacity-0 group-hover:opacity-100 transition-opacity');
+          cta.textContent = post.mediaType === 'VIDEO' ? 'Ver el reel en Instagram →' : 'Ver en Instagram →';
+          body.append(p, cta);
+
+          a.append(img, shade, body);
+          return a;
+        })
+      );
+    } catch (e) {
+      // Si el feed falla, no dejamos placeholders colgados: queda solo el botón.
+      grid.remove();
+    }
+  })();
+</script>
