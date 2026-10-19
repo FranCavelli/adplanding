@@ -2,6 +2,19 @@
 // Sección B — Calculadora "¿Cuánta agua necesitás?"
 // Bidón animado: la altura del agua representa tu consumo DIARIO vs 20L.
 // Texto grande: "1 bidón te dura X días/horas" — número tangible.
+
+const base = import.meta.env.BASE_URL;
+
+// Silueta del bidón de 20 L: ancho, hombros planos y dos ranuras de agarre.
+// El cuerpo útil para el agua va de y=112 a y=392 (lo usa el script).
+const BIDON =
+  'M 86 54 V 66 C 86 72 80 74 70 76 C 36 82 12 92 12 118 ' +
+  'V 184 C 12 192 20 194 20 202 C 20 210 12 212 12 220 ' +
+  'V 284 C 12 292 20 294 20 302 C 20 310 12 312 12 320 ' +
+  'V 372 C 12 386 24 392 40 392 H 160 C 176 392 188 386 188 372 ' +
+  'V 320 C 188 312 180 310 180 302 C 180 294 188 292 188 284 ' +
+  'V 220 C 188 212 180 210 180 202 C 180 194 188 192 188 184 ' +
+  'V 118 C 188 92 164 82 130 76 C 120 74 114 72 114 66 V 54 Z';
 ---
 
 <section id="calculadora" class="relative py-24 lg:py-32 overflow-hidden">
@@ -120,32 +133,26 @@
               <stop offset="0.35" stop-color="#3a63c9"/>
               <stop offset="1" stop-color="#0a2a6e"/>
             </linearGradient>
-            {/* Bidón: cuello → hombros redondeados → cuerpo → base (y del cuerpo: 112–392, igual que el JS) */}
             <clipPath id="calc-clip">
-              <path d="M 84 52 V 66 C 84 74, 76 78, 62 84 C 40 93, 30 104, 30 124 V 366 C 30 382, 40 392, 58 392 H 142 C 160 392, 170 382, 170 366 V 124 C 170 104, 160 93, 138 84 C 124 78, 116 74, 116 66 V 52 Z"/>
+              <path d={BIDON}/>
             </clipPath>
           </defs>
 
-          {/* Tapa: cuerpo con estrías + aro superior */}
-          <rect x="80" y="24" width="40" height="26" rx="5" fill="url(#calc-capG)"/>
-          <rect x="78" y="20" width="44" height="9" rx="4.5" fill="#0a2a6e"/>
+          {/* Tapa de bidón: corta y ancha, con estrías */}
+          <rect x="80" y="30" width="40" height="22" rx="4" fill="url(#calc-capG)"/>
+          <rect x="78" y="26" width="44" height="8" rx="4" fill="#0a2a6e"/>
           <g stroke="#ffffff" stroke-opacity="0.18" stroke-width="1.2">
-            <line x1="87" y1="32" x2="87" y2="46"/>
-            <line x1="94" y1="32" x2="94" y2="46"/>
-            <line x1="100" y1="32" x2="100" y2="46"/>
-            <line x1="106" y1="32" x2="106" y2="46"/>
-            <line x1="113" y1="32" x2="113" y2="46"/>
+            <line x1="87" y1="37" x2="87" y2="49"/>
+            <line x1="94" y1="37" x2="94" y2="49"/>
+            <line x1="100" y1="37" x2="100" y2="49"/>
+            <line x1="106" y1="37" x2="106" y2="49"/>
+            <line x1="113" y1="37" x2="113" y2="49"/>
           </g>
           {/* Collar del cuello */}
-          <rect x="80" y="50" width="40" height="6" rx="3" fill="#9ac7d8"/>
+          <rect x="80" y="51" width="40" height="7" rx="3.5" fill="#9ac7d8"/>
 
           {/* Cuerpo del bidón */}
-          <path
-            d="M 84 52 V 66 C 84 74, 76 78, 62 84 C 40 93, 30 104, 30 124 V 366 C 30 382, 40 392, 58 392 H 142 C 160 392, 170 382, 170 366 V 124 C 170 104, 160 93, 138 84 C 124 78, 116 74, 116 66 V 52 Z"
-            fill="url(#calc-bottleG)"
-            stroke="#9ac7d8"
-            stroke-width="1.2"
-          />
+          <path d={BIDON} fill="url(#calc-bottleG)" stroke="#9ac7d8" stroke-width="1.2"/>
 
           {/* Water (clipped), height animated by JS */}
           <g clip-path="url(#calc-clip)">
@@ -159,34 +166,30 @@
             </g>
           </g>
 
-          {/* Anillos del bidón (curvos, para que se lea como cilindro) */}
+          {/* Ranuras de agarre (curvas, para que se lea como cilindro) */}
           <g clip-path="url(#calc-clip)" fill="none" stroke-linecap="round">
-            <path d="M30 176 Q 100 190 170 176" stroke="#0a2a6e" stroke-opacity="0.12" stroke-width="3"/>
-            <path d="M30 179 Q 100 193 170 179" stroke="#ffffff" stroke-opacity="0.55" stroke-width="1.5"/>
-            <path d="M30 256 Q 100 270 170 256" stroke="#0a2a6e" stroke-opacity="0.12" stroke-width="3"/>
-            <path d="M30 259 Q 100 273 170 259" stroke="#ffffff" stroke-opacity="0.55" stroke-width="1.5"/>
-            <path d="M30 336 Q 100 350 170 336" stroke="#0a2a6e" stroke-opacity="0.12" stroke-width="3"/>
-            <path d="M30 339 Q 100 353 170 339" stroke="#ffffff" stroke-opacity="0.55" stroke-width="1.5"/>
+            <path d="M12 199 Q 100 215 188 199" stroke="#0a2a6e" stroke-opacity="0.16" stroke-width="5"/>
+            <path d="M12 204 Q 100 220 188 204" stroke="#ffffff" stroke-opacity="0.6" stroke-width="1.8"/>
+            <path d="M12 299 Q 100 315 188 299" stroke="#0a2a6e" stroke-opacity="0.16" stroke-width="5"/>
+            <path d="M12 304 Q 100 320 188 304" stroke="#ffffff" stroke-opacity="0.6" stroke-width="1.8"/>
           </g>
 
           {/* Volumen + brillos */}
-          <path
-            d="M 84 52 V 66 C 84 74, 76 78, 62 84 C 40 93, 30 104, 30 124 V 366 C 30 382, 40 392, 58 392 H 142 C 160 392, 170 382, 170 366 V 124 C 170 104, 160 93, 138 84 C 124 78, 116 74, 116 66 V 52 Z"
-            fill="url(#calc-volume)"
-          />
-          <path d="M46 128 Q 40 250 46 370" stroke="white" stroke-width="7" opacity="0.5" fill="none" stroke-linecap="round"/>
-          <path d="M58 132 Q 55 200 58 250" stroke="white" stroke-width="2.5" opacity="0.4" fill="none" stroke-linecap="round"/>
-          <path d="M70 92 Q 52 100 44 116" stroke="white" stroke-width="4" opacity="0.5" fill="none" stroke-linecap="round"/>
+          <path d={BIDON} fill="url(#calc-volume)"/>
+          <path d="M28 124 Q 24 150 28 178" stroke="white" stroke-width="6" opacity="0.5" fill="none" stroke-linecap="round"/>
+          <path d="M28 228 Q 24 252 28 276" stroke="white" stroke-width="6" opacity="0.5" fill="none" stroke-linecap="round"/>
+          <path d="M28 328 Q 25 350 30 372" stroke="white" stroke-width="6" opacity="0.5" fill="none" stroke-linecap="round"/>
+          <path d="M66 82 Q 38 90 26 108" stroke="white" stroke-width="4" opacity="0.55" fill="none" stroke-linecap="round"/>
 
-          {/* Etiqueta */}
+          {/* Etiqueta con el logo, entre las dos ranuras */}
           <g>
-            <rect x="62" y="200" width="76" height="34" rx="8" fill="#ffffff" fill-opacity="0.85" stroke="#9ac7d8" stroke-width="0.8"/>
-            <text x="100" y="214" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="8" font-weight="700" fill="#1d3c96" letter-spacing="0.5">AGUAS DEL PARQUE</text>
-            <text x="100" y="228" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="11" font-weight="800" fill="#0a2a6e">20 L</text>
+            <rect x="40" y="226" width="120" height="58" rx="10" fill="#ffffff" fill-opacity="0.92" stroke="#9ac7d8" stroke-width="0.8"/>
+            <image href={`${base}logo-label.webp`} x="50" y="230" width="100" height="38" preserveAspectRatio="xMidYMid meet"/>
+            <text x="100" y="279" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="9" font-weight="800" fill="#0a2a6e" letter-spacing="1">20 LITROS</text>
           </g>
 
           {/* Sombra en el piso */}
-          <ellipse cx="100" cy="402" rx="66" ry="6" fill="#0a2a6e" opacity="0.18"/>
+          <ellipse cx="100" cy="402" rx="88" ry="6" fill="#0a2a6e" opacity="0.18"/>
         </svg>
 
         {/* Floating info card: "1 bidón dura X" */}
