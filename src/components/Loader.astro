@@ -75,6 +75,7 @@ const base = import.meta.env.BASE_URL;
     preload.src = logoUrl;
 
     const run = () => {
+      if (loader.dataset.zooming) return; // load + fallback podían disparar dos veces
       loader.dataset.zooming = '1';
 
       const w = window.innerWidth;
@@ -95,20 +96,20 @@ const base = import.meta.env.BASE_URL;
         // Respiracion
         .to(state, {
           size: startSize * 1.08,
-          duration: 0.25,
+          duration: 0.18,
           ease: 'sine.out',
           onUpdate: () => place(state.size),
         })
         .to(state, {
           size: startSize * 1.02,
-          duration: 0.25,
+          duration: 0.18,
           ease: 'sine.in',
           onUpdate: () => place(state.size),
         })
         // Zoom
         .to(state, {
           size: finalSize,
-          duration: 1.6,
+          duration: 1.1,
           ease: 'power2.in', // power3.in 
           onUpdate: () => {
             const s = state.size;
@@ -126,8 +127,8 @@ const base = import.meta.env.BASE_URL;
     } else {
       preload.addEventListener('load', run, { once: true });
       preload.addEventListener('error', run, { once: true });
-      // Fallback de seguridad
-      setTimeout(run, 1500);
+      // Fallback de seguridad (el logo está precargado, casi nunca hace falta)
+      setTimeout(run, 800);
     }
   }
 </script>
