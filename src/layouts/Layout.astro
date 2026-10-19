@@ -7,11 +7,47 @@ interface Props {
 }
 
 const {
-  title = 'Aguas del Parque — Agua envasada en Lincoln, Buenos Aires',
-  description = 'Bidones de 20, 12, 10 y 5 litros, soda, dispensers frío/calor y delivery en Lincoln y la zona. Producción propia, habilitación nacional y el placer de lo natural.',
+  title = 'Aguas del Parque | Agua en bidones y soda a domicilio en Lincoln',
+  description = 'Agua de mesa en bidones de 20, 12, 10 y 5 litros, soda en sifón y dispensers frío/calor con reparto a domicilio en Lincoln, Buenos Aires. Producción propia y habilitación nacional.',
 } = Astro.props;
 
 const base = import.meta.env.BASE_URL; // '/' en local, '/adplanding/' en GH Pages
+const siteUrl = (Astro.site?.href ?? 'https://aguasdelparque.ar/').replace(/\/$/, '');
+const canonical = `${siteUrl}${Astro.url.pathname}`;
+const ogImage = `${siteUrl}${base}og.jpg`;
+
+// Datos de negocio local para Google (schema.org)
+const localBusiness = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  '@id': `${siteUrl}/#negocio`,
+  name: 'Aguas del Parque',
+  alternateName: 'Aguas del Parque Lincoln',
+  description,
+  url: `${siteUrl}/`,
+  logo: `${siteUrl}${base}logo.png`,
+  image: ogImage,
+  telephone: '+54 2355 69-6327',
+  priceRange: '$',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Catamarca 42',
+    addressLocality: 'Lincoln',
+    postalCode: '6070',
+    addressRegion: 'Buenos Aires',
+    addressCountry: 'AR',
+  },
+  areaServed: { '@type': 'City', name: 'Lincoln, Buenos Aires' },
+  sameAs: ['https://www.instagram.com/aguasdelparquelincoln/'],
+  makesOffer: [
+    'Agua de mesa en bidón de 20 litros',
+    'Agua de mesa en bidón de 12 litros',
+    'Agua de mesa en bidón de 10 litros',
+    'Agua de mesa en bidón de 5 litros',
+    'Soda en sifón',
+    'Dispenser frío/calor',
+  ].map((name) => ({ '@type': 'Offer', itemOffered: { '@type': 'Product', name } })),
+};
 ---
 
 <!doctype html>
@@ -24,12 +60,23 @@ const base = import.meta.env.BASE_URL; // '/' en local, '/adplanding/' en GH Pag
 
     <title>{title}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="geo.region" content="AR-B" />
+    <meta name="geo.placename" content="Lincoln" />
 
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Aguas del Parque" />
+    <meta property="og:locale" content="es_AR" />
+    <meta property="og:url" content={canonical} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={`${base}minilogo.png`} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={ogImage} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(localBusiness)} />
 
     <link rel="icon" type="image/png" href={`${base}minilogo.png`} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
