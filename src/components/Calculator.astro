@@ -107,30 +107,44 @@
               <stop offset="0.5" stop-color="#ffffff" stop-opacity="0.9"/>
               <stop offset="1" stop-color="#c6e1ed" stop-opacity="0.95"/>
             </linearGradient>
-            {/* Single continuous path: neck → shoulder → body → bottom */}
+            {/* Volumen de cilindro: luz a la izquierda, sombra en el borde derecho */}
+            <linearGradient id="calc-volume" x1="0" x2="1" y1="0" y2="0">
+              <stop offset="0" stop-color="#0a2a6e" stop-opacity="0.18"/>
+              <stop offset="0.12" stop-color="#ffffff" stop-opacity="0.35"/>
+              <stop offset="0.3" stop-color="#ffffff" stop-opacity="0"/>
+              <stop offset="0.8" stop-color="#0a2a6e" stop-opacity="0"/>
+              <stop offset="1" stop-color="#0a2a6e" stop-opacity="0.28"/>
+            </linearGradient>
+            <linearGradient id="calc-capG" x1="0" x2="1" y1="0" y2="0">
+              <stop offset="0" stop-color="#1d3c96"/>
+              <stop offset="0.35" stop-color="#3a63c9"/>
+              <stop offset="1" stop-color="#0a2a6e"/>
+            </linearGradient>
+            {/* Bidón: cuello → hombros redondeados → cuerpo → base (y del cuerpo: 112–392, igual que el JS) */}
             <clipPath id="calc-clip">
-              <path d="M 78 48 V 68 C 78 78, 56 82, 34 112 V 358 C 34 380, 52 392, 72 392 H 128 C 148 392, 166 380, 166 358 V 112 C 144 82, 122 78, 122 68 V 48 Z"/>
+              <path d="M 84 52 V 66 C 84 74, 76 78, 62 84 C 40 93, 30 104, 30 124 V 366 C 30 382, 40 392, 58 392 H 142 C 160 392, 170 382, 170 366 V 124 C 170 104, 160 93, 138 84 C 124 78, 116 74, 116 66 V 52 Z"/>
             </clipPath>
           </defs>
 
-          {/* Cap (compact, no gap with neck) */}
-          <rect x="78" y="22" width="44" height="26" rx="3" fill="#0a2a6e"/>
-          <rect x="78" y="22" width="44" height="6" rx="2" fill="#1d3c96"/>
-          <g opacity="0.3" stroke="#000" stroke-width="0.6">
-            <line x1="84" y1="32" x2="84" y2="44"/>
-            <line x1="90" y1="32" x2="90" y2="44"/>
-            <line x1="96" y1="32" x2="96" y2="44"/>
-            <line x1="102" y1="32" x2="102" y2="44"/>
-            <line x1="108" y1="32" x2="108" y2="44"/>
-            <line x1="114" y1="32" x2="114" y2="44"/>
+          {/* Tapa: cuerpo con estrías + aro superior */}
+          <rect x="80" y="24" width="40" height="26" rx="5" fill="url(#calc-capG)"/>
+          <rect x="78" y="20" width="44" height="9" rx="4.5" fill="#0a2a6e"/>
+          <g stroke="#ffffff" stroke-opacity="0.18" stroke-width="1.2">
+            <line x1="87" y1="32" x2="87" y2="46"/>
+            <line x1="94" y1="32" x2="94" y2="46"/>
+            <line x1="100" y1="32" x2="100" y2="46"/>
+            <line x1="106" y1="32" x2="106" y2="46"/>
+            <line x1="113" y1="32" x2="113" y2="46"/>
           </g>
+          {/* Collar del cuello */}
+          <rect x="80" y="50" width="40" height="6" rx="3" fill="#9ac7d8"/>
 
-          {/* Bottle body (neck + shoulder + body in one continuous path) */}
+          {/* Cuerpo del bidón */}
           <path
-            d="M 78 48 V 68 C 78 78, 56 82, 34 112 V 358 C 34 380, 52 392, 72 392 H 128 C 148 392, 166 380, 166 358 V 112 C 144 82, 122 78, 122 68 V 48 Z"
+            d="M 84 52 V 66 C 84 74, 76 78, 62 84 C 40 93, 30 104, 30 124 V 366 C 30 382, 40 392, 58 392 H 142 C 160 392, 170 382, 170 366 V 124 C 170 104, 160 93, 138 84 C 124 78, 116 74, 116 66 V 52 Z"
             fill="url(#calc-bottleG)"
             stroke="#9ac7d8"
-            stroke-width="1"
+            stroke-width="1.2"
           />
 
           {/* Water (clipped), height animated by JS */}
@@ -145,14 +159,34 @@
             </g>
           </g>
 
-          {/* Glossy highlights */}
-          <path d="M48 120 Q 40 240 48 350" stroke="white" stroke-width="5" opacity="0.45" fill="none" stroke-linecap="round"/>
-          <path d="M155 130 Q 158 240 154 340" stroke="white" stroke-width="2" opacity="0.3" fill="none" stroke-linecap="round"/>
+          {/* Anillos del bidón (curvos, para que se lea como cilindro) */}
+          <g clip-path="url(#calc-clip)" fill="none" stroke-linecap="round">
+            <path d="M30 176 Q 100 190 170 176" stroke="#0a2a6e" stroke-opacity="0.12" stroke-width="3"/>
+            <path d="M30 179 Q 100 193 170 179" stroke="#ffffff" stroke-opacity="0.55" stroke-width="1.5"/>
+            <path d="M30 256 Q 100 270 170 256" stroke="#0a2a6e" stroke-opacity="0.12" stroke-width="3"/>
+            <path d="M30 259 Q 100 273 170 259" stroke="#ffffff" stroke-opacity="0.55" stroke-width="1.5"/>
+            <path d="M30 336 Q 100 350 170 336" stroke="#0a2a6e" stroke-opacity="0.12" stroke-width="3"/>
+            <path d="M30 339 Q 100 353 170 339" stroke="#ffffff" stroke-opacity="0.55" stroke-width="1.5"/>
+          </g>
 
-          {/* Label */}
+          {/* Volumen + brillos */}
+          <path
+            d="M 84 52 V 66 C 84 74, 76 78, 62 84 C 40 93, 30 104, 30 124 V 366 C 30 382, 40 392, 58 392 H 142 C 160 392, 170 382, 170 366 V 124 C 170 104, 160 93, 138 84 C 124 78, 116 74, 116 66 V 52 Z"
+            fill="url(#calc-volume)"
+          />
+          <path d="M46 128 Q 40 250 46 370" stroke="white" stroke-width="7" opacity="0.5" fill="none" stroke-linecap="round"/>
+          <path d="M58 132 Q 55 200 58 250" stroke="white" stroke-width="2.5" opacity="0.4" fill="none" stroke-linecap="round"/>
+          <path d="M70 92 Q 52 100 44 116" stroke="white" stroke-width="4" opacity="0.5" fill="none" stroke-linecap="round"/>
 
-          {/* Shadow underneath */}
-          <ellipse cx="100" cy="404" rx="55" ry="5" fill="#0a2a6e" opacity="0.18"/>
+          {/* Etiqueta */}
+          <g>
+            <rect x="62" y="200" width="76" height="34" rx="8" fill="#ffffff" fill-opacity="0.85" stroke="#9ac7d8" stroke-width="0.8"/>
+            <text x="100" y="214" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="8" font-weight="700" fill="#1d3c96" letter-spacing="0.5">AGUAS DEL PARQUE</text>
+            <text x="100" y="228" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="11" font-weight="800" fill="#0a2a6e">20 L</text>
+          </g>
+
+          {/* Sombra en el piso */}
+          <ellipse cx="100" cy="402" rx="66" ry="6" fill="#0a2a6e" opacity="0.18"/>
         </svg>
 
         {/* Floating info card: "1 bidón dura X" */}
