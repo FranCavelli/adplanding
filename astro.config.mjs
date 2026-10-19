@@ -27,4 +27,6 @@ export default defineConfig({
   trailingSlash: 'ignore',
   integrations: [tailwind()],
   compressHTML: true,
+  // Los estilos van dentro del HTML: el celular no espera otra descarga para dibujar
+  build: { inlineStylesheets: 'always' },
 });
