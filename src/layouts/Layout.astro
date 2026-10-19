@@ -14,7 +14,8 @@ const {
 const base = import.meta.env.BASE_URL; // '/' en local, '/adplanding/' en GH Pages
 const siteUrl = (Astro.site?.href ?? 'https://aguasdelparque.com.ar/').replace(/\/$/, '');
 const canonical = `${siteUrl}${Astro.url.pathname}`;
-const ogImage = `${siteUrl}${base}og.jpg`;
+// ?v= cambia cuando se rehace la imagen: WhatsApp y Facebook guardan la vieja
+const ogImage = `${siteUrl}${base}og.jpg?v=2`;
 
 // Datos de negocio local para Google (schema.org)
 const localBusiness = {
