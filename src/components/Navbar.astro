@@ -133,7 +133,15 @@ const base = import.meta.env.BASE_URL;
       order.style.transition = 'width 500ms cubic-bezier(0.22, 1, 0.36, 1)';
     };
     window.addEventListener('scroll', apply, { passive: true });
-    window.addEventListener('resize', remeasure);
+    // En el celular, al scrollear se esconde la barra del navegador y eso
+    // dispara "resize" solo por el alto: ahí no hay que volver a medir
+    // (si no, el botón salta sin animación)
+    let lastW = window.innerWidth;
+    window.addEventListener('resize', () => {
+      if (window.innerWidth === lastW) return;
+      lastW = window.innerWidth;
+      remeasure();
+    });
     // Cuando carga la tipografía el texto cambia de ancho: volver a medir
     document.fonts?.ready.then(remeasure);
   }
