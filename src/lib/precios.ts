@@ -1,31 +1,9 @@
-// Precios tomados de la tienda pública de Aquaenvio al armar la página (no desde el navegador).
-// Solo se guarda id → precio; el token que devuelve la API no se usa ni se publica.
-const API = 'https://aguas-del-parque.aquaenvio.com/api/publico/aguas-del-parque/';
+// Precios de Aquaenvio. Los guarda en src/data/precios.json scripts/actualizar-precios.mjs,
+// que corre en la PC de la oficina: a los servidores de GitHub Aquaenvio les responde 403.
+import guardados from '../data/precios.json';
 
-export async function obtenerPrecios(): Promise<Record<number, number>> {
-  try {
-    const res = await fetch(API, {
-      signal: AbortSignal.timeout(10000),
-      // Sin un navegador conocido, Cloudflare le niega el acceso (403) a los servidores de GitHub
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0 Safari/537.36',
-        Accept: 'application/json',
-        'Accept-Language': 'es-AR,es;q=0.9',
-        Referer: 'https://aguas-del-parque.aquaenvio.com/',
-      },
-    });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data = await res.json();
-    const precios: Record<number, number> = {};
-    for (const p of data.productos ?? []) {
-      if (typeof p.id === 'number' && typeof p.precio === 'number') precios[p.id] = p.precio;
-    }
-    return precios;
-  } catch (e) {
-    // Si Aquaenvio no responde, la página se arma igual, sin precios
-    console.warn('No se pudieron traer los precios de Aquaenvio:', e);
-    return {};
-  }
+export function obtenerPrecios(): Record<number, number> {
+  return Object.fromEntries(Object.entries(guardados).map(([id, precio]) => [Number(id), precio]));
 }
 
 export const formatoPrecio = (n: number) => `$${n.toLocaleString('es-AR')}`;
