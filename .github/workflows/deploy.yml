@@ -4,6 +4,9 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  # Todos los días a las 6:00 (Argentina) se vuelve a armar para traer los precios de Aquaenvio
+  schedule:
+    - cron: '0 9 * * *'
 
 permissions:
   contents: read

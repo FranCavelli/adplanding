@@ -1,8 +1,10 @@
 ---
 import Camioneta from './Camioneta.astro';
+import { obtenerPrecios, formatoPrecio } from '../lib/precios';
 const products = [
   {
     slug: 'bidon-20l',
+    aquaId: 1,
     size: '20L',
     tag: 'Más pedido',
     title: 'Bidón 20 litros',
@@ -15,6 +17,7 @@ const products = [
   },
   {
     slug: 'bidon-12l',
+    aquaId: 2,
     size: '12L',
     title: 'Bidón 12 litros',
     desc: 'La opción equilibrada: cabe en heladera y es fácil de manipular.',
@@ -26,6 +29,7 @@ const products = [
   },
   {
     slug: 'bidon-5l',
+    aquaId: 4,
     size: '5L',
     title: 'Bidón 5 litros',
     desc: 'Para llevar a donde sea: trabajo, viajes, gimnasio, eventos.',
@@ -37,6 +41,7 @@ const products = [
   },
   {
     slug: 'soda',
+    aquaId: 3,
     size: 'SODA',
     tag: 'Clásico',
     title: 'Soda en sifón',
@@ -49,6 +54,7 @@ const products = [
   },
   {
     slug: 'dispenser-comun',
+    aquaId: 5,
     size: 'MESA',
     title: 'Dispenser común',
     desc: 'Dispenser de mesa, sin electricidad: apoyás el bidón y servís con la canilla.',
@@ -60,6 +66,7 @@ const products = [
   },
   {
     slug: 'dispenser',
+    aquaId: 6,
     size: 'DISP',
     tag: 'Frío / Calor',
     title: 'Dispenser frío y calor',
@@ -71,6 +78,7 @@ const products = [
     real: true
   },
 ];
+const precios = await obtenerPrecios();
 const waPhone = '542355696327';
 const base = import.meta.env.BASE_URL;
 ---
@@ -148,7 +156,12 @@ const base = import.meta.env.BASE_URL;
             </div>
 
             <div class="p-6 relative">
-              <h3 class="font-display text-xl font-bold text-brand-deep">{p.title}</h3>
+              <div class="flex items-baseline justify-between gap-3">
+                <h3 class="font-display text-xl font-bold text-brand-deep">{p.title}</h3>
+                {precios[p.aquaId] && (
+                  <span class="font-display text-xl font-extrabold text-brand-royal whitespace-nowrap">{formatoPrecio(precios[p.aquaId])}</span>
+                )}
+              </div>
               <p class="mt-2 text-sm text-brand-ink/70 leading-relaxed">{p.desc}</p>
 
               <ul class="mt-4 flex flex-wrap gap-2">
