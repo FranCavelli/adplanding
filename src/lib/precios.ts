@@ -4,7 +4,16 @@ const API = 'https://aguas-del-parque.aquaenvio.com/api/publico/aguas-del-parque
 
 export async function obtenerPrecios(): Promise<Record<number, number>> {
   try {
-    const res = await fetch(API, { signal: AbortSignal.timeout(10000) });
+    const res = await fetch(API, {
+      signal: AbortSignal.timeout(10000),
+      // Sin un navegador conocido, Cloudflare le niega el acceso (403) a los servidores de GitHub
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0 Safari/537.36',
+        Accept: 'application/json',
+        'Accept-Language': 'es-AR,es;q=0.9',
+        Referer: 'https://aguas-del-parque.aquaenvio.com/',
+      },
+    });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
     const precios: Record<number, number> = {};
